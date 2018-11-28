@@ -14,7 +14,7 @@
     "system-test": "samples test app",
     "test": "npm run system-test",
     "e2e-test": "samples test deploy"
-  },
+  }, 
   "author": "",
   "license": "ISC",
   "dependencies": {
