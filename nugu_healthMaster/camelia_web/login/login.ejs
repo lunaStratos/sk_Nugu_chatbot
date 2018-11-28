@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>건강마스터 - 로그인</title>
+
+  <!-- Bootstrap core CSS-->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin.css" rel="stylesheet">
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <script>
+
+    function chkPwd(str){
+            var reg_pwd = /^.*(?=.{6,20})(?=.*[0-9])(?=.*[a-zA-Z]).*$/;
+            if(!reg_pwd.test(str)){
+              //틀리면
+              return true;
+            }
+            //암호가 맞으면
+            return false;
+          }
+
+      function verifyEmail (email) {
+        // 이메일 검증 스크립트 작성
+        var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+        // 검증에 사용할 정규식 변수 regExp에 저장
+        if (email.match(regExp) != null) {
+          //맞으면
+          return false;
+        }
+        else {
+          //이메일이 틀리면
+          return true
+        }
+      }
+
+          //실행 부분
+          function onclick(){
+            var flag = true;
+
+            var form = document.getElementById('loginForm');
+            var email = document.getElementById('inputEmail').value;
+            var password = document.getElementById('inputPassword').value;
+            console.log(email)
+            console.log(password)
+
+            if(verifyEmail(email)){
+              flag = false;
+              $('#replaceText').text('이메일을 제대로 입력해주세요.');
+              $('.modal').modal('show');
+            }
+
+            if(chkPwd(password)){
+                flag = false;
+                $('#replaceText').text('암호를 제대로 입력해주세요.');
+                $('.modal').modal('show');
+            }
+
+            //마지막 flag체크후 보내기
+            if(flag){
+              form.submit();
+            }
+
+          }
+
+    </script>
+</head>
+
+<body class="bg-dark">
+
+  <div class="container">
+    <div class="card card-login mx-auto mt-5">
+      <div class="card-header">로그인</div>
+      <div class="card-body">
+        <form method="post" id="loginForm" action="../login">
+          <div class="form-group">
+            <div class="form-label-group">
+              <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required="required" autofocus="autofocus">
+              <label for="inputEmail">Email 주소</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-label-group">
+              <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required="required">
+              <label for="inputPassword">암호</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="checkbox">
+              <!--
+                <label>
+                  <input type="checkbox" value="remember-me">
+                  로그인 기억하기
+                </label>
+-->
+
+
+            </div>
+          </div>
+          <a class="btn btn-primary btn-block" href="JavaScript:onclick()">Login</a>
+        </form>
+        <div class="text-center">
+          <a class="d-block small mt-3" href="/register">계정생성</a>
+          <a class="d-block small" href="/forgotPassword">암호를 잊으셨나요?</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">앗!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p id="modalText">암호가 틀리거나 아이디가 없습니다.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% if(locals.result == 'login'){ %>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.modal-title').text('로그인 실패!');
+      $('#modalText').text('암호 혹은 아이디가 틀리거나, 존재하지 않는 계정입니다. 인증을 받지 않았다면 이메일로인증을 받아주세요.');
+      $('.modal').modal('show');
+    });
+  </script>
+  <%}else if(locals.result == 'email'){ %>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.modal-title').text('이메일 주소 실패!');
+      $('#modalText').text('이메일을 제대로 입력해 주세요.');
+      $('.modal').modal('show');
+    });
+  </script>
+  <%}else if(locals.result == 'password'){ %>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.modal-title').text('암호 실패!');
+      $('#modalText').text('암호를 제대로 입력해주세요.');
+      $('.modal').modal('show');
+    });
+  </script>
+  <%}else if(locals.result == 'wait'){ %>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.modal-title').text('인증메일 발송!');
+      $('#modalText').text('이메일로 인증번호가 전송되었습니다. 이메일의 링크를 눌러주세요.');
+      $('.modal').modal('show');
+    });
+  </script>
+  <%}else if(locals.result == 'duplication'){ %>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.modal-title').text('중복된 계정');
+      $('#modalText').text('중복된 계정입니다.');
+      $('.modal').modal('show');
+    });
+  </script>
+  <%}else if(locals.result == 'modifyfail'){ %>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.modal-title').text('계정 수정 실패');
+      $('#modalText').text('계정 정보수정이 실패했습니다.');
+      $('.modal').modal('show');
+    });
+  </script>
+  <%}else if(locals.result == 'modify'){ %>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.modal-title').text('계정 수정 성공');
+      $('#modalText').text('계정이 수정되었습니다. 다시 로그인해 주세요.');
+      $('.modal').modal('show');
+    });
+  </script>
+  <% }%>
+
+
+
+
+
+</body>
+
+</html>

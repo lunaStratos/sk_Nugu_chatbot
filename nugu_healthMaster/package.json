@@ -1,0 +1,48 @@
+{
+  "name": "camelia",
+  "version": "1.0.0",
+  "description": "for nugu camelia project",
+  "main": "app.js",
+  "engines": {
+    "node": "9.0.0"
+  },
+  "scripts": {
+    "deploy": "gcloud app deploy",
+    "start": "node app.js",
+    "lint": "samples lint",
+    "pretest": "npm run lint",
+    "system-test": "samples test app",
+    "test": "npm run system-test",
+    "e2e-test": "samples test deploy"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.6.1",
+    "body-parser": "^1.18.3",
+    "composable-middleware": "^0.3.0",
+    "cookie-parser": "^1.4.3",
+    "cookie-session": "^2.0.0-beta.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "jsonwebtoken": "^8.3.0",
+    "knex": "^0.15.2",
+    "mysql": "^2.16.0",
+    "nanoseconds": "^1.0.1",
+    "nodemailer": "^4.6.8",
+    "passport": "^0.4.0",
+    "passport-google-oauth": "^1.0.0",
+    "passport-google-oauth20": "^1.0.0",
+    "passport-local": "^1.0.0",
+    "promise": "^8.0.2",
+    "prompt": "^1.0.0",
+    "rand-token": "^0.4.0",
+    "request": "^2.88.0",
+    "urlencode": "^1.1.0",
+    "xml2js": "^0.4.19"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
+}

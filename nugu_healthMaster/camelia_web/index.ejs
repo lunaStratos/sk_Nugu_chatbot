@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>건강마스터! - 피트니스 정보롤 들어보세요!</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+  <!-- Custom styles for this template -->
+  <link href="css/agency.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">Stratos</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav text-uppercase ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#services">서비스</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#portfolio">어떻게 작동되나요?</a>
+          </li>
+          <li class="nav-item">
+            <% if(email !== undefined) { %>
+            <a class="nav-link js-scroll-trigger" href="./login/">대쉬보드</a>
+            <% }else { %>
+            <a class="nav-link js-scroll-trigger" href="./login/">로그인</a>
+            <% } %>
+
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#team">Team</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+          </li>
+         <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="/accountLink">사용방법</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header class="masthead">
+    <div class="container">
+      <div class="intro-text">
+        <div class="intro-lead-in">건강마스터</div>
+        <div class="intro-heading text-uppercase">스마트 스피커에서</div>
+        <div class="intro-heading text-uppercase">만보계를 체크하세요!</div>
+        <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services">자세히 알아보기</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Services -->
+  <section id="services">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Services</h2>
+          <h3 class="section-subheading text-muted">본 서비스는 SK Nugu스피커에서 사용 가능합니다.</h3>
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="col-md-4">
+          <span class="fa-stack fa-4x">
+            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+            <i class="fas fa-shopping-cart fa-stack-1x fa-inverse"></i>
+          </span>
+          <h4 class="service-heading">쉽습니다.</h4>
+          <p class="text-muted">Google Fitness만 연동하면 됩니다.</p>
+        </div>
+        <div class="col-md-4">
+          <span class="fa-stack fa-4x">
+            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+            <i class="fas fa-laptop fa-stack-1x fa-inverse"></i>
+          </span>
+          <h4 class="service-heading">바로 확인 가능합니다.</h4>
+          <p class="text-muted">만보계의 데이터를 종합적으로 알려드립니다.</p>
+        </div>
+        <div class="col-md-4">
+          <span class="fa-stack fa-4x">
+            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+            <i class="fas fa-lock fa-stack-1x fa-inverse"></i>
+          </span>
+          <h4 class="service-heading">안전합니다</h4>
+          <p class="text-muted">연동된 스피커만 가능해서 안전!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio Grid -->
+  <section class="bg-light" id="portfolio">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">이런 서비스입니다.</h2>
+          <h3 class="section-subheading text-muted">주요 기능</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 col-sm-6 portfolio-item">
+          <a class="portfolio-link" data-toggle="modal" href="#portfolioModal1">
+            <div class="portfolio-hover">
+              <div class="portfolio-hover-content">
+                <i class="fas fa-plus fa-3x"></i>
+              </div>
+            </div>
+            <img class="img-fluid" src="img/portfolio/01-thumbnail.jpg" alt="">
+          </a>
+          <div class="portfolio-caption">
+            <h4> 만보계 & 거리</h4>
+            <p class="text-muted">Google fitness에 연동된 데이터로 만보계 데이터와 거리등을 알려드립니다.</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 portfolio-item">
+          <a class="portfolio-link" data-toggle="modal" href="#portfolioModal2">
+            <div class="portfolio-hover">
+              <div class="portfolio-hover-content">
+                <i class="fas fa-plus fa-3x"></i>
+              </div>
+            </div>
+            <img class="img-fluid" src="img/portfolio/02-thumbnail.jpg" alt="">
+          </a>
+          <div class="portfolio-caption">
+            <h4>운동하기 어때?</h4>
+            <p class="text-muted">기상 데이터를 이용, 운동하기 좋은 날씨인지, 그리고 질병예보도 알려드립니다.</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 portfolio-item">
+          <a class="portfolio-link" data-toggle="modal" href="#portfolioModal3">
+            <div class="portfolio-hover">
+              <div class="portfolio-hover-content">
+                <i class="fas fa-plus fa-3x"></i>
+              </div>
+            </div>
+            <img class="img-fluid" src="img/portfolio/03-thumbnail.jpg" alt="">
+          </a>
+          <div class="portfolio-caption">
+            <h4>이 음식 칼로리 몇이야?</h4>
+            <p class="text-muted">한국인이 주로 섭취하는 음식 1인분에 대한 칼로리를 알려드립니다.</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 portfolio-item">
+          <a class="portfolio-link" data-toggle="modal" href="#portfolioModal4">
+            <div class="portfolio-hover">
+              <div class="portfolio-hover-content">
+                <i class="fas fa-plus fa-3x"></i>
+              </div>
+            </div>
+            <img class="img-fluid" src="img/portfolio/04-thumbnail.jpg" alt="">
+          </a>
+          <div class="portfolio-caption">
+            <h4>이메일로 받아보세요</h4>
+            <p class="text-muted">만보계 데이터를 1달치를 이메일로 보내드립니다.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="bg-light" id="team">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">개발진 Team</h2>
+          <h3 class="section-subheading text-muted"></h3>
+        </div>
+      </div>
+      <div class="row">
+
+
+        <div class="col-sm-4">
+          <div class="team-member">
+            <img class="mx-auto rounded-circle" src="img/team/1.jpg" alt="">
+            <h4>LunaStratos</h4>
+            <p class="text-muted">Main Programer & Design</p>
+            <ul class="list-inline social-buttons">
+              <li class="list-inline-item">
+                <a href="https://twitter.com/lunastratos" target="_blank">
+                  <i class="fab fa-twitter"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://github.com/lunaStratos" target="_blank">
+                  <i class="fab fa-github"></i>
+                </a>
+              </li>
+              <li class="list-inline-item" target="_blank">
+                <a href="http://stratos.dothome.co.kr/">
+                  <i class="fab fa-wordpress"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+
+      </div>
+      <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+          <p class="large text-muted"> </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Contact</h2>
+          <h3 class="section-subheading text-muted"> </h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <!-- <form id="contactForm" name="sentMessage" novalidate="novalidate"> -->
+            <div class="row">
+              <div class="col-sm-4 text-center">
+                <div class="team-member">
+                  <img class="mx-auto rounded-circle" src="img/team/1.jpg" alt="">
+                  <h4 style="color:white;">Dev.LunaStratos@gmail.com</h4>
+                  <p class="text-muted">메일은 상시 체크합니다</p>
+
+                </div>
+              </div>
+
+              <!-- <div class="col-md-6">
+                <div class="form-group">
+                  <input class="form-control" id="name" type="text" placeholder="Your Name *" required="required" data-validation-required-message="Please enter your name.">
+                  <p class="help-block text-danger"></p>
+                </div>
+                <div class="form-group">
+                  <input class="form-control" id="email" type="email" placeholder="Your Email *" required="required" data-validation-required-message="Please enter your email address.">
+                  <p class="help-block text-danger"></p>
+                </div>
+                <div class="form-group">
+                  <input class="form-control" id="phone" type="tel" placeholder="Your Phone *" required="required" data-validation-required-message="Please enter your phone number.">
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <textarea class="form-control" id="message" placeholder="Your Message *" required="required" data-validation-required-message="Please enter a message."></textarea>
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+              <div class="col-lg-12 text-center">
+                <div id="success"></div>
+                <button id="sendMessageButton" class="btn btn-primary btn-xl text-uppercase" type="submit">Send Message</button>
+              </div> -->
+            </div>
+          <!-- </form> -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <span class="copyright">Copyright &copy; Camelia Project 2018</span>
+        </div>
+        <div class="col-md-4">
+          <ul class="list-inline social-buttons">
+            <li class="list-inline-item">
+      <a href="https://twitter.com/lunastratos" target="_blank">
+                <i class="fab fa-twitter"></i>
+              </a>
+            </li>
+
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <ul class="list-inline quicklinks">
+            <li class="list-inline-item">
+              <a href="http://stratos.dothome.co.kr/index.html#policy" target="_blank">Privacy Policy</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Portfolio Modals -->
+
+  <!-- Modal 1 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">만보계 데이터를 확인하세요</h2>
+                <p class="item-intro text-muted">Google fitness와 연동되는 밴드나 스마트워치라면 가능!</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/01-full.jpg" alt="">
+                <p>운동때 스마트 워치를 사용중이신가요? 아니면 밴드를 사용 중이신가요? 그러면 연동만 하세요!
+                  연동만 하면 만보계 데이터와 하루 걸은 거리를 AI스피커를 통해서 확인할 수 있습니다.
+                  한달, 1주, 그리고 어제와 오늘 단위로 확인 가능합니다.
+                </p>
+                <ul class="list-inline">
+                  <li>60~80대 평균 걷기 데이터: 한국 골든 에이지 포럼 </li>
+                  <li>20~50대 평균 걷기 데이터: 종합데이터</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  닫기</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">운동하기 좋은 날씨인가요?</h2>
+                <p class="item-intro text-muted">종합적으로 분석해서 알려드립니다.</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/02-full.jpg" alt="">
+                <p>미세먼지, 비나 눈, 그리고 날씨까지... 한번에 찾기 귀찮으시죠? 이제 '오늘 운동하기 어때' 라고 말하시면
+                바로 알려드립니다. 건강마스터는 PM 2.5 미세먼지, 날씨, 비와 눈데이터를 조합해서 야외운동하기 좋은 날씨인지
+              아닌지를 알려드립니다. 또한 질병예보를 이용해서 감기와 눈병에 대한 주의단계도 알수 있습니다.</p>
+                <ul class="list-inline">
+                  <li>날씨 & Pm2.5: 기상청</li>
+                  <li>질병예보: 건강보험심사평가원</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  닫기</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">이 음식 어때?</h2>
+                <p class="item-intro text-muted">칼로리, 콜레스테롤이 걱정되시나요? 이제 안심하세요!</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/03-full.jpg" alt="">
+                <p>칼로리와 콜레스테롤을 매번 찾기도, 인터넷을 검색해도 안나올때가 많습니다.
+                  이제 안심하세요. 건강마스터는 1인분 칼로리와 콜레스테롤 여부 기타 음식에 대한 정보를 알려드립니다.
+                현재는 약 100여가지의 주요 음식을 지원하며 차후 늘어날 예정입니다.</p>
+                <ul class="list-inline">
+                  <li>콜레스테롤 정보: 삼성서울병원 영양팀 </li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  닫기</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">이메일로 받아보세요</h2>
+                <p class="item-intro text-muted">이메일로 간단한 내용을 보내드립니다.</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/04-full.jpg" alt="">
+                <p>이메일로 1달 걷기에 대한 평가를 받아보실수 있습니다!</p>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  닫기</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Contact form JavaScript -->
+  <script src="js/jqBootstrapValidation.js"></script>
+  <script src="js/contact_me.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/agency.min.js"></script>
+
+  <div class="modal" tabindex="-1" role="dialog" id="portfolioModal5">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">앗!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p id="modalText"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% if(locals.result == 'deleteAccount'){ %>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.modal-title').text('탈퇴되었습니다!');
+      $('#modalText').text('탈퇴되었습니다. 지금까지 이용해주셔서 감사합니다.');
+      $('.modal#portfolioModal5').modal('show');
+    });
+  </script>
+  <%}else if(locals.result == 'fail'){ %>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.modal-title').text('탈퇴실패');
+      $('#modalText').text('아이디나 암호가 맞지 않았습니다.');
+      $('.modal#portfolioModal5').modal('show');
+    });
+  </script>
+  <%}else if(locals.result == 'modify'){ %>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.modal-title').text('수정이 완료되었습니다.');
+      $('#modalText').text('수정이 완료되었습니다. 다시 로그인 해주세요.');
+      $('.modal#portfolioModal5').modal('show');
+    });
+  </script>
+  <%} %>
+
+</body>
+
+</html>

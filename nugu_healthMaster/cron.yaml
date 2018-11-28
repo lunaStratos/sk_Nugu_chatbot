@@ -1,0 +1,10 @@
+cron:
+- description: "WeatherNow"
+  url: /api/updateApi
+  schedule: every 1 hours
+- description: "Gisu Sql"
+  url: /api/updateGisu
+  schedule: every 1 hours
+- description: "N Account delete"
+  url: /deleteaccount
+  schedule: every day 03:00
