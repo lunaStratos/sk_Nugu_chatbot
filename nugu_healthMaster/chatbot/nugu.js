@@ -21,21 +21,9 @@ exports.nugu_chatbot = (knex, req, res) => {
   const actionName = requestBody.action.actionName // Action intent 구분
   const parameters = requestBody.action.parameters // parameters
   const context = requestBody.context //context
-  console.log('context : ', requestBody)
-  //=====================Product version TOKEN=======================
-  const accessToken = context.session.accessToken //context
-  const base64toJson = JSON.parse((Buffer.from(accessToken.split('//')[1], 'base64')).toString('utf8')) // 종합데이터 받기
-  //=====================TOKEN_DATA=======================
-  const emailToken = base64toJson.email;
-  const nameToken = base64toJson.name;
-  const sexToken = base64toJson.sex;
-  const yearToken = base64toJson.year;
-  const locationToken = base64toJson.location;
+  console.log('requestBody : ', requestBody)
   //=============================================================================
-
-
   console.log(`request: ${JSON.stringify(actionName)}`)
-
   //=====================request=======================
   //=====================request=======================
   //=====================request=======================
@@ -159,7 +147,7 @@ exports.nugu_chatbot = (knex, req, res) => {
 
 
       case 'userData': //내 서버에서 유저 정보 가져오기
-        url = "https://[사이트].com/oauth/request";
+        url = "https://camelia-neoaspect.appspot.com/oauth/request";
         forms.accessToken = insertData.accessToken
         //option바꾸기
         options = {
@@ -187,8 +175,8 @@ exports.nugu_chatbot = (knex, req, res) => {
         forms.ny = insertData.ny
         forms._type = 'json'
 
-        url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData?serviceKey=[api키]";
-        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData?serviceKey=[api키]&base_date=20181026&base_time=1500&nx=60&ny=127&numOfRows=100&pageSize=1&pageNo=1&startPage=1&_type=json
+        url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData?serviceKey=[인증키]";
+        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData?serviceKey=[인증키]&base_date=20181026&base_time=1500&nx=60&ny=127&numOfRows=100&pageSize=1&pageNo=1&startPage=1&_type=json
         // pop강수확률
         // pty 강수형태
         // T3H 3시간 기온
@@ -213,8 +201,8 @@ exports.nugu_chatbot = (knex, req, res) => {
 
 
       case 'forecastShortWeather': //내일날씨
-        url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastTimeData?serviceKey=[api키]";
-        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastTimeData?serviceKey=[api키]&base_date=20181026&base_time=1500&nx=60&ny=127&numOfRows=100&pageSize=10&pageNo=1&startPage=1&_type=json
+        url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastTimeData?serviceKey=[인증키]";
+        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastTimeData?serviceKey=[인증키]&base_date=20181026&base_time=1500&nx=60&ny=127&numOfRows=100&pageSize=10&pageNo=1&startPage=1&_type=json
         //"category":"T1H","fcstDate":20181026,"fcstTime":1600,"fcstValue":13.1,
         // Sky TH1 PTY
 
@@ -325,9 +313,6 @@ exports.nugu_chatbot = (knex, req, res) => {
             jsonArr.endtime = endtime.getFullYear() + '' + ('0' + (endtime.getMonth() + 1)).slice(-2) + '' + ('0' + (endtime.getDate())).slice(-2);
             let walkcount = ''
 
-            // console.log(new Date(Number(originalJson[i].startTimeMillis)))
-            // console.log(new Date(Number(originalJson[i].endTimeMillis)))
-            // console.log(originalJson[i].dataset[0].point[0])
             if (originalJson[i].dataset[0].point.length == 0) {
               jsonArr.distance = 0;
             } else {
@@ -518,13 +503,6 @@ exports.nugu_chatbot = (knex, req, res) => {
       })
   }
 
-  //구글 토큰 얻기
-  const googleTokenSQL = (insertJson) => new Promise(function(resolved, rejected) {
-    knex('Camelia_Users').select('googleAccessToken').where('email', emailToken)
-      .then(rows => {
-        resolved(rows[0]) //　[0]　없이 사용가능
-      })
-  })
 
   //평균 걸음 거리
   const averageSQL = (insertJson) => new Promise(function(resolved, rejected) {
@@ -576,6 +554,26 @@ exports.nugu_chatbot = (knex, req, res) => {
   //종합적으로 알려드림
   function welcome_action(res) {
     console.log("welcome_action");
+    if (!context.session.hasOwnProperty('accessToken')) {
+      let output = {}
+      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 이 서비스는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
+      output.welcomeanswer = sayText
+      return res.send(makeJson(output))
+    }
+
+    const accessToken = context.session.accessToken //context
+    const base64toJson = JSON.parse((Buffer.from(accessToken.split('//')[1], 'base64')).toString('utf8')) // 종합데이터 받기
+    //=====================TOKEN_DATA=======================
+    const emailToken = base64toJson.email;
+    const nameToken = base64toJson.name;
+    const sexToken = base64toJson.sex;
+    const yearToken = base64toJson.year;
+    const locationToken = base64toJson.location;
+    console.log(emailToken)
+    console.log(nameToken)
+    console.log(sexToken)
+    console.log(yearToken)
+    console.log(locationToken)
 
     const searchJson = {
       name: locationToken
@@ -674,6 +672,22 @@ exports.nugu_chatbot = (knex, req, res) => {
 
   async function nextweather_action(res) {
 
+    if (!context.session.hasOwnProperty('accessToken')) {
+      let output = {}
+      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 이 서비스는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
+      output.nextweatheranswer = sayText
+      return res.send(makeJson(output))
+    }
+
+    const accessToken = context.session.accessToken //context
+    const base64toJson = JSON.parse((Buffer.from(accessToken.split('//')[1], 'base64')).toString('utf8')) // 종합데이터 받기
+    //=====================TOKEN_DATA=======================
+    const emailToken = base64toJson.email;
+    const nameToken = base64toJson.name;
+    const sexToken = base64toJson.sex;
+    const yearToken = base64toJson.year;
+    const locationToken = base64toJson.location;
+
     const getJsonLocationCode = util.locationToCode(locationToken)
 
     const shortForecast = await getSync(getJsonLocationCode, 'forecastShortWeather') // 오늘날씨
@@ -731,6 +745,24 @@ exports.nugu_chatbot = (knex, req, res) => {
   //평균 걸음과 나이대별 걸음 비교
   function averageWalk_action(res) {
     console.log("averageWalk_action");
+
+    if (!context.session.hasOwnProperty('accessToken')) {
+      let output = {}
+      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 이 서비스는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
+      output.averageanswer = sayText
+      return res.send(makeJson(output))
+    }
+
+    const accessToken = context.session.accessToken //context
+    const base64toJson = JSON.parse((Buffer.from(accessToken.split('//')[1], 'base64')).toString('utf8')) // 종합데이터 받기
+    //=====================TOKEN_DATA=======================
+    const emailToken = base64toJson.email;
+    const nameToken = base64toJson.name;
+    const sexToken = base64toJson.sex;
+    const yearToken = base64toJson.year;
+    const locationToken = base64toJson.location;
+
+
     const name = nameToken
     const sex = sexToken
     const age = new Date(new Date().getTime() + 32400000).getFullYear() - Number(yearToken) //나이
@@ -876,6 +908,24 @@ exports.nugu_chatbot = (knex, req, res) => {
 
   //걸음 말하면 칼로리 계산
   function walkcal_action(res) {
+
+    if (!context.session.hasOwnProperty('accessToken')) {
+      let output = {}
+      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 이 서비스는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
+      output.walkcalanswer = sayText
+      return res.send(makeJson(output))
+    }
+
+    const accessToken = context.session.accessToken //context
+    const base64toJson = JSON.parse((Buffer.from(accessToken.split('//')[1], 'base64')).toString('utf8')) // 종합데이터 받기
+    //=====================TOKEN_DATA=======================
+    const emailToken = base64toJson.email;
+    const nameToken = base64toJson.name;
+    const sexToken = base64toJson.sex;
+    const yearToken = base64toJson.year;
+    const locationToken = base64toJson.location;
+
+
     let userwalk = 0;
     if (parameters.hasOwnProperty('userwalk')) {
       userwalk = parameters.userwalk.value
@@ -902,6 +952,25 @@ exports.nugu_chatbot = (knex, req, res) => {
   //어제와 오늘의 걸음 정보
   //어제는 어제의 0시 1분 1초로
   async function walkinfo_action(res) {
+
+
+    if (!context.session.hasOwnProperty('accessToken')) {
+      let output = {}
+      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 이 서비스는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
+      output.walkinfoanswer = sayText
+      return res.send(makeJson(output))
+    }
+
+    const accessToken = context.session.accessToken //context
+    const base64toJson = JSON.parse((Buffer.from(accessToken.split('//')[1], 'base64')).toString('utf8')) // 종합데이터 받기
+    //=====================TOKEN_DATA=======================
+    const emailToken = base64toJson.email;
+    const nameToken = base64toJson.name;
+    const sexToken = base64toJson.sex;
+    const yearToken = base64toJson.year;
+    const locationToken = base64toJson.location;
+
+
     const searchJson = {}
 
     async.waterfall([refreshToken_action(emailToken)], async function(err, result) {
@@ -983,6 +1052,23 @@ exports.nugu_chatbot = (knex, req, res) => {
   //1주일 걸음 정보
   async function weekinfo_action(res) {
     console.log('weekinfo_action')
+
+    if (!context.session.hasOwnProperty('accessToken')) {
+      let output = {}
+      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 이 서비스는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
+      output.weekinfoanswer = sayText
+      return res.send(makeJson(output))
+    }
+
+    const accessToken = context.session.accessToken //context
+    const base64toJson = JSON.parse((Buffer.from(accessToken.split('//')[1], 'base64')).toString('utf8')) // 종합데이터 받기
+    //=====================TOKEN_DATA=======================
+    const emailToken = base64toJson.email;
+    const nameToken = base64toJson.name;
+    const sexToken = base64toJson.sex;
+    const yearToken = base64toJson.year;
+    const locationToken = base64toJson.location;
+
     async.waterfall([refreshToken_action(emailToken)], async function(err, result) {
       const searchJson = {}
 
@@ -1054,6 +1140,25 @@ exports.nugu_chatbot = (knex, req, res) => {
 
   //1달 걸음 정보
   async function monthinfo_action(res) {
+
+
+
+    if (!context.session.hasOwnProperty('accessToken')) {
+      let output = {}
+      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 이 서비스는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
+      output.monthinfoanswer = sayText
+      return res.send(makeJson(output))
+    }
+
+    const accessToken = context.session.accessToken //context
+    const base64toJson = JSON.parse((Buffer.from(accessToken.split('//')[1], 'base64')).toString('utf8')) // 종합데이터 받기
+    //=====================TOKEN_DATA=======================
+    const emailToken = base64toJson.email;
+    const nameToken = base64toJson.name;
+    const sexToken = base64toJson.sex;
+    const yearToken = base64toJson.year;
+    const locationToken = base64toJson.location;
+
 
     const searchJson = {}
     async.waterfall([refreshToken_action(emailToken)], async function(err, result) {
@@ -1128,6 +1233,24 @@ exports.nugu_chatbot = (knex, req, res) => {
 
   //임의의 날짜와 임의의 날자 로 계산
   async function userDate_action(res) {
+
+
+    if (!context.session.hasOwnProperty('accessToken')) {
+      let output = {}
+      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 이 서비스는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
+      output.userdateanswer = sayText
+      return res.send(makeJson(output))
+    }
+
+    const accessToken = context.session.accessToken //context
+    const base64toJson = JSON.parse((Buffer.from(accessToken.split('//')[1], 'base64')).toString('utf8')) // 종합데이터 받기
+    //=====================TOKEN_DATA=======================
+    const emailToken = base64toJson.email;
+    const nameToken = base64toJson.name;
+    const sexToken = base64toJson.sex;
+    const yearToken = base64toJson.year;
+    const locationToken = base64toJson.location;
+
 
     let userDate = 10;
     if (parameters.hasOwnProperty('userdate')) {
@@ -1247,6 +1370,24 @@ exports.nugu_chatbot = (knex, req, res) => {
 
   // 종합 이메일 보내는 부분
   async function email_action(res) {
+
+
+    if (!context.session.hasOwnProperty('accessToken')) {
+      let output = {}
+      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 이 서비스는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
+      output.mailsendanswer = sayText
+      return res.send(makeJson(output))
+    }
+
+    const accessToken = context.session.accessToken //context
+    const base64toJson = JSON.parse((Buffer.from(accessToken.split('//')[1], 'base64')).toString('utf8')) // 종합데이터 받기
+    //=====================TOKEN_DATA=======================
+    const emailToken = base64toJson.email;
+    const nameToken = base64toJson.name;
+    const sexToken = base64toJson.sex;
+    const yearToken = base64toJson.year;
+    const locationToken = base64toJson.location;
+
 
     let monthemail = (new Date(new Date().getTime() + 32400000).getMonth() + 1)
     let insertData = {}
@@ -1519,7 +1660,6 @@ exports.nugu_chatbot = (knex, req, res) => {
     case USERDATE_ACTION: //사용자날짜
       userDate_action(res)
       break;
-
 
       //퀄리티용
     case HELP_INTENT:
