@@ -48,6 +48,54 @@ router.get('/login', function(req, res) {
 
 });
 
+
+//목표걸음 설정
+router.get('/walkgoal', function(req, res) {
+  console.log('goalwalk')
+  if (req.session.email == undefined) {
+    return res.render('./login/login.ejs')
+  } else {
+    knex.select('walkgoal','walkgoalSwitch').from('Camelia_Users').where({
+        email: req.session.email,
+      })
+      .then(rows => {
+        if (rows.length == 0) { //실패
+        } else {
+          console.log(rows[0])
+
+          return res.render('./login/walkgoal.ejs', {
+            walkgoal: rows[0].walkgoal,
+            walkgoalSwitch: rows[0].walkgoalSwitch
+          })
+        }
+      }); //then
+
+  }
+
+});
+
+//목표걸음 설정
+router.post('/walkgoal', function(req, res) {
+  console.log(req.body.walkgoalSwitch)
+  console.log(req.body.walkgoal)
+  if (req.session.email == undefined) {
+    return res.render('./login/login.ejs')
+  } else {
+    knex('Camelia_Users').where({
+      email: req.session.email,
+    }).update({
+      walkgoal: req.body.walkgoal,
+      walkgoalSwitch: req.body.walkgoalSwitch
+    }).then(result =>{
+      return res.redirect("/dashboard")
+    })
+
+
+  }
+
+});
+
+
 //로그인 email
 router.post('/checkemail', function(req, res) {
   console.log('checkemail')
@@ -130,6 +178,13 @@ router.get('/logout', function(req, res) {
 
 });
 
+//목표걸음 설정
+router.get('/goalwalk', function(req, res) {
+  console.log('goalwalk')
+
+
+});
+
 
 //구글 토큰 얻기
 const googleTokenSQL = (insertJson) => new Promise(function(resolved, rejected) {
@@ -188,9 +243,9 @@ router.get('/dashboard', async function(req, res) {
       return res.render('index.ejs')
     } else {
 
-      const todayD = new Date(new Date().getTime() + 32400000);
+      const todayD = new Date(new Date().getTime() + 32400000); /// 32400000
       const todayDate = (todayD.getFullYear()) + ('0' + (todayD.getMonth() + 1)).slice(-2) + '' + ('0' + (todayD.getDate())).slice(-2)
-      var yesterD = new Date(new Date().getTime() - 2592000000 + 32400000)
+      var yesterD = new Date(new Date().getTime() - 2592000000 + 32400000) // 32400000
       yesterD.setHours(0, 0, 1); //어제날짜 0시 1분 1초
       const yesterDate = yesterD.getFullYear() + '' + ('0' + (yesterD.getMonth() + 1)).slice(-2) + '' + ('0' + (yesterD.getDate())).slice(-2)
 
@@ -249,6 +304,7 @@ router.get('/forgotPassword', function(req, res) {
 
   }
 });
+
 
 
 // 암호 잊어먹었을때
@@ -363,9 +419,10 @@ router.post('/register', function(req, res) {
       location: location,
       memo: '',
       registercode: authmailcode, //인증코드 생성
-      confirm: 'N'
+      confirm: 'N',
+      walkgoal : 5000,
+      walkgoalSwitch: 'off'
     }]
-    console.log(insertValue)
 
     knex('Camelia_Users').insert(insertValue).then(() => console.log("Users data inserted"))
       .then(function() {

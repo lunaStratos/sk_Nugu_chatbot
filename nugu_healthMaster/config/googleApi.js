@@ -1,7 +1,7 @@
 let googleApi = {};
 
-googleApi.clientId = "구글 클라이언트 아이디" //
-googleApi.clientSecret = "구글 클라이언트 비밀키" //
-googleApi.redirect_uri = 'https://사이트주소.com/oauth/google/callback'
+googleApi.clientId = "457841518414-qv29or3muj9kovnm6ppkub6a2ao7vf9b.apps.googleusercontent.com" //
+googleApi.clientSecret = "FNTsQmw7xgqbMoe7MMs0HQKA" //
+googleApi.redirect_uri = 'https://camelia-neoaspect.appspot.com/oauth/google/callback'
 
 module.exports = googleApi

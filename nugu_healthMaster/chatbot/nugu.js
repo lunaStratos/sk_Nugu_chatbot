@@ -21,12 +21,10 @@ exports.nugu_chatbot = (knex, req, res) => {
   const actionName = requestBody.action.actionName // Action intent 구분
   const parameters = requestBody.action.parameters // parameters
   const context = requestBody.context //context
-  console.log('requestBody : ', requestBody)
+  console.log('context : ', requestBody)
   //=============================================================================
   console.log(`request: ${JSON.stringify(actionName)}`)
-  //=====================request=======================
-  //=====================request=======================
-  //=====================request=======================
+
   //request api section GET POST
   function getDataRequest(insertData, requestType, callback) {
 
@@ -43,8 +41,6 @@ exports.nugu_chatbot = (knex, req, res) => {
 
         var startTime = insertData.startTime
         var endTime = insertData.endTime
-        console.log('startTime: ', startTime);
-        console.log('endTime: ', endTime);
 
         //해더
         headers = {
@@ -59,7 +55,7 @@ exports.nugu_chatbot = (knex, req, res) => {
             dataTypeName: "com.google.step_count.delta"
           }],
           bucketByTime: {
-            durationMillis: 86400000 //하루
+            durationMillis: 86400000,
           },
           startTimeMillis: startTime,
           endTimeMillis: endTime
@@ -80,8 +76,6 @@ exports.nugu_chatbot = (knex, req, res) => {
 
         var startTime = insertData.startTime
         var endTime = insertData.endTime
-        console.log('startTime: ', startTime);
-        console.log('endTime: ', endTime);
 
         headers = {
           'Content-Type': 'application/json;encoding=utf-8',
@@ -115,8 +109,6 @@ exports.nugu_chatbot = (knex, req, res) => {
 
         var startTime = insertData.startTime
         var endTime = insertData.endTime
-        console.log('startTime: ', startTime);
-        console.log('endTime: ', endTime);
 
         headers = {
           'Content-Type': 'application/json;encoding=utf-8',
@@ -238,7 +230,7 @@ exports.nugu_chatbot = (knex, req, res) => {
 
     //   request module
     request(options, function(err, resp, body) {
-      // console.log(body)
+
       //에러시 처리
       if (err) {
         callback(err, {
@@ -270,9 +262,6 @@ exports.nugu_chatbot = (knex, req, res) => {
             jsonArr.endtime = endtime.getFullYear() + '' + ('0' + (endtime.getMonth() + 1)).slice(-2) + '' + ('0' + (endtime.getDate())).slice(-2);
             let walkcount = ''
 
-            // console.log(new Date(Number(originalJson[i].startTimeMillis)))
-            // console.log(new Date(Number(originalJson[i].endTimeMillis)))
-            // console.log(originalJson[i].dataset[0].point[0])
             if (originalJson[i].dataset[0].point.length == 0) {
               jsonArr.walkCount = 0;
             } else {
@@ -353,9 +342,6 @@ exports.nugu_chatbot = (knex, req, res) => {
             jsonArr.endtime = endtime.getFullYear() + '' + ('0' + (endtime.getMonth() + 1)).slice(-2) + '' + ('0' + (endtime.getDate())).slice(-2);
             let walkcount = ''
 
-            // console.log(new Date(Number(originalJson[i].startTimeMillis)))
-            // console.log(new Date(Number(originalJson[i].endTimeMillis)))
-            // console.log(originalJson[i].dataset[0].point[0])
             if (originalJson[i].dataset[0].point.length == 0) {
               jsonArr.bpm = 0;
             } else {
@@ -448,7 +434,7 @@ exports.nugu_chatbot = (knex, req, res) => {
 
   //response json 필드. 여기서 json을 만들어준다.
   function makeJson(jsons) {
-    console.log('makeJson')
+
     let jsonReturn = {
       "version": "2.0",
       "resultCode": "OK",
@@ -472,7 +458,6 @@ exports.nugu_chatbot = (knex, req, res) => {
       }
     }
     jsonReturn.output = jsons
-    console.log(JSON.stringify(jsonReturn))
     return jsonReturn;
   }
 
@@ -489,7 +474,7 @@ exports.nugu_chatbot = (knex, req, res) => {
         avg: 'walk'
       })
       .then(rows => {
-        console.log(rows)
+
         callback(rows[0])
       })
   }
@@ -498,7 +483,7 @@ exports.nugu_chatbot = (knex, req, res) => {
     //유저 평균 걸음수
     knex('Camelia_NowWeather').where('name', name)
       .then(rows => {
-        console.log(rows)
+
         callback(rows[0])
       })
   }
@@ -528,7 +513,7 @@ exports.nugu_chatbot = (knex, req, res) => {
         cityName: insertJson.name
       })
       .then(rows => {
-        console.log('Camelia_Predict: ', rows)
+
         resolved(rows[0])
       })
   })
@@ -546,6 +531,14 @@ exports.nugu_chatbot = (knex, req, res) => {
         resolved(rows[0])
       })
   })
+
+  //각종지수2
+  const walkgoalSQL = (insertJson) => new Promise(function(resolved, rejected) {
+    knex('Camelia_Users').where('email', insertJson.email)
+      .then(rows => {
+        resolved(rows[0])
+      })
+  })
   //==========================================================================
   //==========================================================================
   //==========================================================================
@@ -556,7 +549,7 @@ exports.nugu_chatbot = (knex, req, res) => {
     console.log("welcome_action");
     if (!context.session.hasOwnProperty('accessToken')) {
       let output = {}
-      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 이 서비스는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
+      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 날씨조회는 사용하실 수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
       output.welcomeanswer = sayText
       return res.send(makeJson(output))
     }
@@ -569,16 +562,10 @@ exports.nugu_chatbot = (knex, req, res) => {
     const sexToken = base64toJson.sex;
     const yearToken = base64toJson.year;
     const locationToken = base64toJson.location;
-    console.log(emailToken)
-    console.log(nameToken)
-    console.log(sexToken)
-    console.log(yearToken)
-    console.log(locationToken)
 
     const searchJson = {
       name: locationToken
     }
-    console.log('locationToken: ', locationToken)
     var d = new Date(new Date().getTime() + 32400000).getMonth() + 1; //0부터 시작: 실제 달 숫자
 
 
@@ -589,36 +576,12 @@ exports.nugu_chatbot = (knex, req, res) => {
     Promise.all([nowWeatherMiseSQL(searchJson), predictSQL(searchJson), gisuSQL(searchJson), gisuSQL2(searchJson)]).then(result => {
       //1번은 현재날씨(미세포함), 2번은 예상바이러스지수, 3번은 생활지수
       //result => Array
-      console.log('welcome_action Promise result : ', result)
 
       const nowWeatherJson = result[0] //T1H(varchar : Num), mise(varchar), PTY(varchar :Num)
       const predictJson = result[1] //risk riskSay
       const gisuJson = result[2] //chegam, bul => h시리즈 : foodDecay, uv today tomorrow theDayAfterTomorrow
       const gisu2Json = result[3] //chegam, bul => h시리즈 : foodDecay, uv today tomorrow theDayAfterTomorrow
 
-      let chegamTemp = ''
-      //체감온도 11~3월 만 가능
-      if (10 < d || d < 4) {
-        //체감온도
-        var nowd = new Date(new Date().getTime() + 32400000).getHours()
-        if (nowd < 4) {
-          chegamTemp = '체감온도 지수는 ' + gisuJson.h3;
-        } else if (4 <= nowd && nowd < 7) {
-          chegamTemp = '체감온도 지수는 ' + gisuJson.h6;
-        } else if (7 <= nowd && nowd < 10) {
-          chegamTemp = '체감온도 지수는 ' + gisuJson.h9;
-        } else if (10 <= nowd && nowd < 13) {
-          chegamTemp = '체감온도 지수는 ' + gisuJson.h12;
-        } else if (13 <= nowd && nowd < 16) {
-          chegamTemp = '체감온도 지수는 ' + gisuJson.h15;
-        } else if (16 <= nowd && nowd < 19) {
-          chegamTemp = '체감온도 지수는 ' + gisuJson.h18;
-        } else if (19 <= nowd && nowd < 22) {
-          chegamTemp = '체감온도 지수는 ' + gisuJson.h21;
-        } else if (22 <= nowd && nowd < 25) {
-          chegamTemp = '체감온도 지수는 ' + gisuJson.h24;
-        }
-      }
 
       //자외선
       let uvTemp = ''
@@ -630,38 +593,94 @@ exports.nugu_chatbot = (knex, req, res) => {
       const tempVoice = util.TempText(nowWeatherJson.T1H);
 
       //	0:없음, 1:비, 2:비/눈, 3:눈/비, 4:눈
+      let ptyFlag = 0
       let ptyInsert = '';
       switch (parseInt(nowWeatherJson.PTY)) {
         case 0:
-          ptyInsert = '맑은 상태입니다. '
+          ptyInsert = '맑음 이며 '
+          ptyFlag = 0
           break;
         case 1:
-          ptyInsert = '비가 내리는 상태입니다. '
+          ptyInsert = '비가 내리고 있으며 '
+          ptyFlag = 2
           break;
         case 2:
-          ptyInsert = '비나 눈이 내리는 상태입니다. '
+          ptyInsert = '비나 눈이 내리고 있으며 '
+          ptyFlag = 2
           break;
         case 3:
-          ptyInsert = '눈이나 비가 내리는 상태입니다. '
+          ptyInsert = '눈이나 비가 내리고 있으며 '
+          ptyFlag = 2
           break;
         case 4:
-          ptyInsert = '눈이 내리는 상태입니다. '
+          ptyInsert = '눈이 내리고 있으며. '
+          ptyFlag = 2
           break;
       }
 
+
+      //미세먼지
+      let miseFlag = 0
       let miseResult = '';
       if ((nowWeatherJson.mise).trim() == '나쁨') {
-        miseResult = nowWeatherJson.mise + '으로 나가지 않기를 추천하며. '
+        miseResult = nowWeatherJson.mise + '입니다. '
+        miseFlag = 2
       } else if ((nowWeatherJson.mise).trim() == '보통') {
-        miseResult = nowWeatherJson.mise + '으로 왠만하면 실내 운동을 추천하며 '
+        miseResult = nowWeatherJson.mise + '입니다. '
+        miseFlag = 1
       } else if ((nowWeatherJson.mise).trim() == '좋음') {
-        miseResult = nowWeatherJson.mise + '으로 실외 운동도 좋으며 '
+        miseResult = nowWeatherJson.mise + '입니다. '
       }
-      console.log(predictJson.risk)
+
+      let tempFlag = 0
+      //온도
+      if (nowWeatherJson.T1H < 13) { //13
+        tempFlag = 1
+      } else if (13 <= nowWeatherJson.T1H && nowWeatherJson.T1H <= 16) { //13~17
+        tempFlag = 1
+      }
+
+      //0: 운동하기 좋음, 1: 다소 주의 2: 실내운동 권장
+      let resultText = ''
+      //온도 tempFlag 미세먼지 miseFlag 강우상황 ptyFlag
+      if (tempFlag == 0 && miseFlag == 0 && ptyFlag == 0) {
+        resultText = '오늘은 야외운동하기 좋은 날입니다. '
+      } else if (tempFlag == 1 || miseFlag == 1 || ptyFlag == 1) {
+        let tempInsert = ''
+        if (tempFlag == 1) {
+          tempInsert += '온도, '
+        }
+        if (miseFlag == 1) {
+          tempInsert += '미세먼지, '
+        }
+        if (ptyFlag == 1) {
+          tempInsert += '강수상황, '
+        }
+        resultText = tempInsert + ' 때문에 야외운동시 약간은 조심해야 겠어요. '
+
+      } else if (tempFlag == 2 || miseFlag == 2 || ptyFlag == 2) {
+        let tempInsert = ''
+        if (tempFlag == 2) {
+          tempInsert += '온도, '
+        }
+        if (miseFlag == 2) {
+          tempInsert += '미세먼지, '
+        }
+        if (ptyFlag == 2) {
+          tempInsert += '강수상황, '
+        }
+        resultText = tempInsert + ' 때문에 꼭 실내운동을 하길 추천할께요 '
+      }
+
+      //
       let output = {}
-      let sayText = nameToken + '님, 운동하기 좋은지 알아볼까요? 우선 지금 온도는 ' + nowWeatherJson.T1H + '도 이며 강수상태는 ' + ptyInsert +
-        ' ' + tempVoice + util.ShuffleUmSay() + '초 미세먼지는 ' + miseResult +
-        ' 감기예보는 ' + util.virusSay(predictJson.risk1) + ' ' + uvTemp + util.shuffleRandom(lastTextArr)[0]
+      let sayText =
+        util.shuffleRandom([('현재 온도는 ' + nowWeatherJson.T1H + '도에 강수상태는 ' + ptyInsert + '초 미세먼지는 ' + miseResult + util.ShuffleUmSay() + resultText + uvTemp),
+          ('현재 온도는 ' + nowWeatherJson.T1H + '도 입니다. ' + util.ShuffleUmSay() + '강수상태는 ' + ptyInsert + '초 미세먼지는 ' + miseResult + resultText + uvTemp),
+          ('같이 운동하고 싶은 ' + nameToken + '님! 현재 온도는 ' + nowWeatherJson.T1H + '도에 강수상태는 ' + ptyInsert + '초 미세먼지는 ' + miseResult + util.ShuffleUmSay() + resultText + uvTemp),
+          ('화창한지 알아볼까요? 지금 온도는 ' + nowWeatherJson.T1H + '도에 강수상태는 ' + ptyInsert + '초 미세먼지는 ' + miseResult + util.ShuffleUmSay() + resultText + uvTemp)
+        ])[0] +
+        util.shuffleRandom(lastTextArr)[0]
       output.welcomeanswer = sayText
       return res.send(makeJson(output))
 
@@ -670,11 +689,86 @@ exports.nugu_chatbot = (knex, req, res) => {
 
   } //function end
 
+  //자외선 지수
+  async function uv_action(res) {
+    console.log("uv_action");
+    if (!context.session.hasOwnProperty('accessToken')) {
+      let output = {}
+      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 자외선 지수는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
+      output.uvanswer = sayText
+      return res.send(makeJson(output))
+    }
+
+    const accessToken = context.session.accessToken //context
+    const base64toJson = JSON.parse((Buffer.from(accessToken.split('//')[1], 'base64')).toString('utf8')) // 종합데이터 받기
+    const emailToken = base64toJson.email;
+    const nameToken = base64toJson.name;
+    const sexToken = base64toJson.sex;
+    const yearToken = base64toJson.year;
+    const locationToken = base64toJson.location;
+
+    const searchJson = {
+      name: locationToken,
+      requestType2: 'uv'
+    }
+    var d = new Date(new Date().getTime() + 32400000).getMonth() + 1; //0부터 시작: 실제 달 숫자
+    const gisu2Json = await gisuSQL2(searchJson)
+
+    let resultText = '자외선 지수는 3월부터 11월까만 가능합니다. 현재는 ' + d + '월이라 제공을 할수 없습니다. '
+    //자외선
+    //자외선 3월에서 11
+    if (2 < d && d < 12) {
+      resultText = '오늘의 자외선 지수는 ' + gisu2Json.today + '입니다. '
+    }
+
+
+    let output = {}
+    let sayText = nameToken + '님, ' + resultText + util.shuffleRandom(lastTextArr)[0]
+    output.uvanswer = sayText
+    return res.send(makeJson(output))
+
+  } //function end
+
+
+  //자외선 지수
+  async function virus_action(res) {
+    console.log("virus_action");
+    if (!context.session.hasOwnProperty('accessToken')) {
+      let output = {}
+      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 질병예방 기능은 사용하실 수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
+      output.virusanswer = sayText
+      return res.send(makeJson(output))
+    }
+
+    const accessToken = context.session.accessToken //context
+    const base64toJson = JSON.parse((Buffer.from(accessToken.split('//')[1], 'base64')).toString('utf8')) // 종합데이터 받기
+    const emailToken = base64toJson.email;
+    const nameToken = base64toJson.name;
+    const sexToken = base64toJson.sex;
+    const yearToken = base64toJson.year;
+    const locationToken = base64toJson.location;
+
+    const searchJson = {
+      name: locationToken
+    }
+
+    const predictVirus = await predictSQL(searchJson)
+
+    let resultText = '현재 눈병 위험도는 ' + predictVirus.risk2 + '단계 이며, 감기는 ' + util.virusSay(predictVirus.risk1)
+
+    let output = {}
+    let sayText = resultText + util.shuffleRandom(lastTextArr)[0]
+    output.virusanswer = sayText
+    return res.send(makeJson(output))
+
+  } //function end
+
+  // 3시간 다음 날씨
   async function nextweather_action(res) {
 
     if (!context.session.hasOwnProperty('accessToken')) {
       let output = {}
-      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 이 서비스는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
+      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 최근 3시간 날씨는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
       output.nextweatheranswer = sayText
       return res.send(makeJson(output))
     }
@@ -727,10 +821,14 @@ exports.nugu_chatbot = (knex, req, res) => {
       if (Number(ptytime) < 12) {
         ptytime = '오전 ' + ptytime
       } else {
-        ptytime = '오전 ' + ptytime
+        ptytime = '오후 ' + ptytime
       }
       let output = {}
-      let sayText = ptytime + ' 시의 구름상황은 ' + sky + ', 강수 예정은 ' + pty + '이며 온도는 약 ' + t1h + '이 될거 같습니다.' + util.shuffleRandom(lastTextArr)[0]
+      let sayText = util.shuffleRandom([(ptytime + '시의 구름상황은 ' + sky + ', 강수 예정은 ' + pty + '이며 온도는 약 ' + t1h + '이 될거 같습니다. '),
+        (ptytime + '시의 구름상황은 ' + sky + ', 강수 예정은 ' + pty + '이네요. 온도는 약 ' + t1h + '이 될거 같습니다. '),
+        (ptytime + '시의 구름상황은 ' + sky + ', 강수 예정은 ' + pty + '이네요.아,  온도는 약 ' + t1h + '이 될거 같아요. '),
+        (ptytime + '시의 구름상황은 ' + sky + ', 강수 예정은 ' + pty + '. 온도도 알아볼까요? 온도는 약 ' + t1h + '이 될거 같네요. ')
+      ])[0] + util.shuffleRandom(lastTextArr)[0]
       output.nextweatheranswer = sayText
       return res.send(makeJson(output))
 
@@ -748,7 +846,7 @@ exports.nugu_chatbot = (knex, req, res) => {
 
     if (!context.session.hasOwnProperty('accessToken')) {
       let output = {}
-      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 이 서비스는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
+      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 평균 걸음은 사용하실 수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
       output.averageanswer = sayText
       return res.send(makeJson(output))
     }
@@ -769,7 +867,7 @@ exports.nugu_chatbot = (knex, req, res) => {
 
     //평균 걸음 구하기 (insert값 없음)
     averagewalkSQL(averageWalk => {
-      console.log(averageWalk)
+
       const sayText = name + '님은, 나이의 평균은 ' + util.averageWalk(age, sex) +
         '이며, ' + appTitle + '사용자들의 평균은 ' +
         parseInt(averageWalk.avg) + ' 입니다.' +
@@ -793,7 +891,7 @@ exports.nugu_chatbot = (knex, req, res) => {
     knex.select().from('Camelia_Gisu').where('name', 'foodDecay').then((result) => {
       if (result.length == 0) {
 
-        let sayText = '죄송합니다. 에러가 있어서 답변을 드릴수가 없었습니다. ' + util.shuffleRandom(lastTextArr)[0]
+        let sayText = '죄송합니다. 에러가 있어서 답변을 드릴 수가 없었습니다. ' + util.shuffleRandom(lastTextArr)[0]
         output.decayanswer = sayText
         return res.send(makeJson(output))
 
@@ -804,7 +902,11 @@ exports.nugu_chatbot = (knex, req, res) => {
         const theDayAfterTomorrowFoodDecay = result[0].theDayAfterTomorrow
 
         let output = {}
-        let sayText = '오늘의 부패지수는 ' + todayFoodDecay + '이며, 내일과 모래의 부패지수는 ' + tomorrowFoodDecay + ', ' + theDayAfterTomorrowFoodDecay + '입니다. ' + util.shuffleRandom(lastTextArr)[0]
+        let sayText = util.shuffleRandom([('오늘의 음식 부패지수는 ' + todayFoodDecay + '이며, 내일의 부패지수는 ' + tomorrowFoodDecay + ' 입니다. '),
+          ('음식 부패지수는 ' + todayFoodDecay + '이며, 내일의 부패지수는 ' + tomorrowFoodDecay + ' 입니다. '),
+          ('음식은 최대한 빨리 드시는게 좋습니다. 오늘 부패지수는 ' + todayFoodDecay + '이며, 내일의 부패지수는 ' + tomorrowFoodDecay + ' 이랍니다. '),
+          ('저온에 보관하는게 가장 안전해요! 부패지수는 ' + todayFoodDecay + '이며, 내일의 부패지수는 ' + tomorrowFoodDecay + ' 이네요. ')
+        ])[0] + util.shuffleRandom(lastTextArr)[0]
         output.decayanswer = sayText
         return res.send(makeJson(output))
 
@@ -868,7 +970,7 @@ exports.nugu_chatbot = (knex, req, res) => {
 
     knex.select().from('Camelia_Gisu').where('name', 'chegam').then((result) => {
       if (result.length == 0) {
-        let sayText = '죄송합니다. 에러가 있어서 답변을 드릴수가 없었습니다. ' + util.shuffleRandom(lastTextArr)[0]
+        let sayText = '죄송합니다. 에러가 있어서 답변을 드릴 수가 없었습니다. ' + util.shuffleRandom(lastTextArr)[0]
         output.chegamanswer = sayText
         return res.send(makeJson(output))
 
@@ -890,7 +992,7 @@ exports.nugu_chatbot = (knex, req, res) => {
         let sayText = '체감지수는 낮을수록 더 춥습니다. 오늘의 체감지수는 오전 9시는 ' + h9 + ', ' +
           ' 정오 12시는 ' + h12 + ', ' +
           ' 오후 3시는 ' + h15 + ', ' +
-          '오후 6시 ' + h18 + ', ' + '오후 9시는 ' + h21 + ', 입니다. ' + util.ShuffleUmSay() + '내일은 체감지수가 ' +
+          '오후 6시 ' + h18 + ', 입니다. ' + util.ShuffleUmSay() + '내일은 체감지수가 ' +
           h33Text + util.shuffleRandom(lastTextArr)[0]
         output.chegamanswer = sayText
         return res.send(makeJson(output))
@@ -911,7 +1013,7 @@ exports.nugu_chatbot = (knex, req, res) => {
 
     if (!context.session.hasOwnProperty('accessToken')) {
       let output = {}
-      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 이 서비스는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
+      let sayText = '죄송합니다. 현재 계정 연결이 되어 있지 않아 칼로리 계산 서비스는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
       output.walkcalanswer = sayText
       return res.send(makeJson(output))
     }
@@ -930,7 +1032,7 @@ exports.nugu_chatbot = (knex, req, res) => {
     if (parameters.hasOwnProperty('userwalk')) {
       userwalk = parameters.userwalk.value
     }
-    console.log(userwalk);
+
     userwalk.replace(/[^0-9]/g, ""); // 숫자만
 
     // 74cm, 여자는 60.3cm 정도예요.
@@ -956,7 +1058,7 @@ exports.nugu_chatbot = (knex, req, res) => {
 
     if (!context.session.hasOwnProperty('accessToken')) {
       let output = {}
-      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 이 서비스는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
+      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 어제와 오늘 걸음 조회는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
       output.walkinfoanswer = sayText
       return res.send(makeJson(output))
     }
@@ -978,23 +1080,21 @@ exports.nugu_chatbot = (knex, req, res) => {
       const todayD = new Date(new Date().getTime() + 32400000);
       const todayDate = (todayD.getFullYear()) + ('0' + (todayD.getMonth() + 1)).slice(-2) + '' + ('0' + (todayD.getDate())).slice(-2)
       //어제
-      const yesterD = new Date((new Date().getTime() + 32400000 - 86400000))
+      const yesterD = new Date((new Date().getTime() - 86400000 + 32400000))
       yesterD.setHours(0, 1, 1); //어제날짜 0시 1분 1초
       const yesterDate = yesterD.getFullYear() + '' + ('0' + (yesterD.getMonth() + 1)).slice(-2) + '' + ('0' + (yesterD.getDate())).slice(-2)
 
-      console.log('todayD: ', todayD)
-      console.log('yesterD: ', yesterD)
-      console.log('result[0] ', result)
       const insertData = {
         startTime: yesterD.getTime(),
         endTime: todayD.getTime(),
         accessToken: result
       }
 
-      const avgWalk = await averageSQL('')
       const fitness = await getSync(insertData, 'fitness')
       const distance = await getSync(insertData, 'distance')
-      const bpm = await getSync(insertData, 'bpm')
+      const walkgoalResult = await walkgoalSQL({
+        email: emailToken
+      })
 
       if (fitness.code != 200 || distance.code != 200) {
         //오류 문구 넣기
@@ -1003,48 +1103,117 @@ exports.nugu_chatbot = (knex, req, res) => {
         output.walkinfoanswer = sayText
         return res.send(makeJson(output))
       } else {
-        console.log('fitness.list : ', fitness.list)
+
         const yesterdayWalkCount = Number(fitness.list[0].walkCount)
         const todayWalkCount = Number(fitness.list[1].walkCount)
         const yesterdayWalkDistance = parseInt(Number(distance.list[0].distance))
         const todayWalkDistance = parseInt(Number(distance.list[1].distance))
 
-        const averageW = util.averageWalk((new Date().getFullYear() - Number(yearToken)), sexToken) * 2
-
         const allPlusWalk = yesterdayWalkCount + todayWalkCount
         let resultText = '';
 
-        if (allPlusWalk < averageW) { //평균이 더 많으면
-          const calWalk = averageW - allPlusWalk
-          resultText = '평균보다 적은 편입니다. ' + util.ShuffleUmSay() + calWalk + '걸음을 더 걸으시면 평균을 채울 수 있습니다. 지금이라도 다른 운동으로 채워보는건 어떨까요? '
-        } else {
-          resultText = '평균보다 많은 편입니다. 지금처럼 잘 유지하시면 더욱 건강하겠죠? '
+        if (walkgoalResult.walkgoalSwitch == 'off') {
+
+          const averageW = util.averageWalk((new Date().getFullYear() - Number(yearToken)), sexToken) * 2
+          if (allPlusWalk < averageW) { //평균이 더 많으면
+            const calWalk = averageW - allPlusWalk
+            resultText = util.shuffleRandom(['나이 평균보다 ' + calWalk + '적은 편입니다. ', '흑흑 평균보다 ' + calWalk + '적은 편입니다. ', '평균보다 ' + calWalk + '적은 편인거 같네요. ', '저런.. 평균보다 ' + calWalk + '적은 편입니다. '])[0]
+          } else {
+            resultText = util.shuffleRandom(['평균보다 많은 편입니다. ', '평균보다 많은 편이에요. ', '우와, 평균보다 많은 편이에요. ', '대단해요. 평균보다 많은 편인거 같네요. '])[0]
+          }
+
+        } else if (walkgoalResult.walkgoalSwitch == 'on') { //설정한 걸음이 있으면
+          const walkgoalTwice = walkgoalResult.walkgoal * 2;
+          if (allPlusWalk < walkgoalTwice) { //설정한 값이 더 크면
+            resultText = util.shuffleRandom(['설정하신 걸음보다 ' + (walkgoalTwice - allPlusWalk) + '걸음이 부족합니다. ', '목표 걸음보다 ' + (walkgoalTwice - allPlusWalk) + '걸음이 부족해요. ', '목표한 걸음보다 더 적게 걸었습니다. ', '목표로 한 ' + walkgoalResult.walkgoal + '걸음보다' + (walkgoalTwice - allPlusWalk) + ' 더 적게 걸었습니다. '])[0]
+
+          } else {
+            resultText = util.shuffleRandom(['설정 걸음보다 ' + (allPlusWalk - walkgoalTwice) + '걸음 많습니다. ', '목표로 하신 걸음보다 ' + (allPlusWalk - walkgoalTwice) + '걸음 많네요. ', '우와, 목표 걸음보다 ' + (allPlusWalk - walkgoalTwice) + '걸음이 많은거 같아요. '])[0]
+          }
+
         }
+        //텍스트 Randomize를 위한 quality 도구
+        let arraySay = [
+          ('어제는 ' + yesterdayWalkCount + '걸음, ' + yesterdayWalkDistance + '미터를 걸었으며 ' + '오늘은 ' + todayWalkCount + '걸음, ' + todayWalkDistance + '미터를 걸었습니다. ' + resultText),
+          ('어제는 ' + yesterdayWalkCount + '걸음, ' + yesterdayWalkDistance + '미터를 걸으셨어요. ' + '오늘은 ' + todayWalkCount + '걸음, ' + todayWalkDistance + '미터를 걸었습니다. ' + resultText),
+          ('어제는 ' + yesterdayWalkCount + '걸음을 걸으셨으며 ' + yesterdayWalkDistance + '미터를 걸으셨어요. ' + '오늘은 ' + todayWalkCount + '걸음, ' + todayWalkDistance + '미터를 걸으셨네요. ' + resultText)
+        ]
 
+        let sayText = util.shuffleRandom(arraySay)[0] + util.shuffleRandom(lastTextArr)[0]
+        let output = {}
+        output.walkinfoanswer = sayText
+        return res.send(makeJson(output))
+      } //fitness.code != 200 || distance.code != 200
+
+    }) //async
+
+  } // function End
+
+  //어제와 오늘의 심박동
+  async function walkbpm_action(res) {
+
+    if (!context.session.hasOwnProperty('accessToken')) {
+      let output = {}
+      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 어제와 오늘 심박동 조회는 사용하실 수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
+      output.walkbpmanswer = sayText
+      return res.send(makeJson(output))
+    }
+
+    const accessToken = context.session.accessToken //context
+    const base64toJson = JSON.parse((Buffer.from(accessToken.split('//')[1], 'base64')).toString('utf8')) // 종합데이터 받기
+    //=====================TOKEN_DATA=======================
+    const emailToken = base64toJson.email;
+    const nameToken = base64toJson.name;
+    const sexToken = base64toJson.sex;
+    const yearToken = base64toJson.year;
+    const locationToken = base64toJson.location;
+
+
+    const searchJson = {}
+
+    async.waterfall([refreshToken_action(emailToken)], async function(err, result) {
+      //오늘
+      const todayD = new Date(new Date().getTime() + 32400000);
+      const todayDate = (todayD.getFullYear()) + ('0' + (todayD.getMonth() + 1)).slice(-2) + '' + ('0' + (todayD.getDate())).slice(-2)
+      //어제
+      const yesterD = new Date((new Date().getTime() - 172800000 + 32400000))
+      const yesterDate = yesterD.getFullYear() + '' + ('0' + (yesterD.getMonth() + 1)).slice(-2) + '' + ('0' + (yesterD.getDate())).slice(-2)
+
+      const insertData = {
+        startTime: yesterD.getTime(),
+        endTime: todayD.getTime(),
+        accessToken: result
+      }
+
+      const bpm = await getSync(insertData, 'bpm')
+
+      if (bpm.code != 200) {
+        //오류 문구 넣기
+        const sayText = '죄송합니다. 구글 계정연동에 문제가 있어 데이터를 가져오지 못했습니다. 누구 앱에서 계정을 연동을 하신 후 사용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
+        let output = {}
+        output.walkbpmanswer = sayText
+        return res.send(makeJson(output))
+      } else {
+
+        let resultText = '';
         const bpmList = bpm.list;
-        console.log(bpmList)
-
         let bpmAllValue = 0;
         let bpmText = 0;
         for (let i = 0; i < bpmList.length; i++) {
           bpmAllValue += bpmList[i].bpm
         }
         if (bpmAllValue == 0) {
-          bpmText = ''
+          bpmText = '어제와 오늘의 심박동을 조회한 결과 아직 심박동에 대한 데이터가 없습니다. '
         } else {
-          bpmText = '아, 심박동도 있네요. 심장박동은 평균 ' + (bpmAllValue / 2) + '이었으며 어제는 ' + bpmList[0].bpm + ', 오늘은 ' + bpmList[1].bpm + ' 입니다.'
+          bpmText = util.shuffleRandom(['어제와 오늘의 심장박동은 평균 ' + (bpmAllValue / 2) + '이었으며 어제는 ' + bpmList[0].bpm + ', 오늘은 ' + bpmList[1].bpm + ' 입니다.', '어제와 오늘의 심장박동은 평균 ' + (bpmAllValue / 2) + '이었습니다. 어제는 ' + bpmList[0].bpm + ', 오늘은 ' + bpmList[1].bpm + ' 정도 이네요.'])[0]
         }
 
-        let sayText = '어제는 ' + yesterdayWalkCount + '걸음, ' + yesterdayWalkDistance + '미터를 걸었으며 ' +
-          '오늘은 ' + todayWalkCount + '걸음, ' + todayWalkDistance + '미터를 걸었습니다. ' + nameToken + '님의 어제와 오늘을 합친 걸음은 ' +
-          resultText + bpmText + util.shuffleRandom(lastTextArr)[0]
+        let sayText = bpmText + util.shuffleRandom(lastTextArr)[0]
         let output = {}
-        output.walkinfoanswer = sayText
+        output.walkbpmanswer = sayText
         return res.send(makeJson(output))
       }
     })
-
-
 
   } // function End
 
@@ -1055,7 +1224,7 @@ exports.nugu_chatbot = (knex, req, res) => {
 
     if (!context.session.hasOwnProperty('accessToken')) {
       let output = {}
-      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 이 서비스는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
+      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 1주일 만보기 조회는 사용하실 수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
       output.weekinfoanswer = sayText
       return res.send(makeJson(output))
     }
@@ -1073,7 +1242,6 @@ exports.nugu_chatbot = (knex, req, res) => {
       const searchJson = {}
 
       let startTime = new Date(new Date().getTime() - 604800000 + 32400000)
-      startTime.setHours(0, 1, 1); // 0시 1분 1초
       startTime = startTime.getTime()
 
       let startTimeDate = new Date(startTime).getFullYear() + '' + (new Date(startTime).getMonth() + 1) + '' + new Date(startTime).getDate()
@@ -1086,12 +1254,11 @@ exports.nugu_chatbot = (knex, req, res) => {
         endTime: endTime,
         accessToken: result
       }
-      console.log(insertData)
-      const avgWalk = await averageSQL('')
       const fitness = await getSync(insertData, 'fitness')
       const distance = await getSync(insertData, 'distance')
-      const bpm = await getSync(insertData, 'bpm')
-      console.log(fitness)
+      const walkgoalResult = await walkgoalSQL({
+        email: emailToken
+      })
 
       if (fitness.code != 200 || distance.code != 200) {
         const sayText = '죄송합니다. 구글 계정연동에 문제가 있어 데이터를 가져오지 못했습니다. 누구 앱에서 계정을 연동을 하신 후 사용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
@@ -1112,22 +1279,35 @@ exports.nugu_chatbot = (knex, req, res) => {
           avgDis7days += distanceList[i].distance
         }
 
-        avgWalk7days = avgWalk7days / 7 //1주일치를 평균으로
-        avgDis7days = parseInt(avgDis7days) / 1000
+        avgWalk7days = parseInt(avgWalk7days / 7) //1주일치를 평균으로
+        avgDis7days = parseInt(avgDis7days) / 1000 // 거리 km
 
         const allPlusWalk = util.averageWalk((new Date().getFullYear() - Number(yearToken)), sexToken)
-        console.log('allPlusWalk ', allPlusWalk)
+
         let resultText = '';
-        if (avgWalk7days < allPlusWalk) { //평균보다 더 적으면
-          const calWalk = allPlusWalk - avgWalk7days
-          resultText = '평균보다 적은 편입니다. 하루평균 ' + parseInt(calWalk) + '걸음이 부족하며, 평소에 더 많은 걸음 혹은 부족함을 운동으로 채워보시는건 어떨까요? '
-        } else {
-          resultText = '평균보다 많은 편입니다. 잘 유지하시면 더욱 건강하겠죠? '
+
+        if (walkgoalResult.walkgoalSwitch == 'off') {
+
+          if (avgWalk7days < allPlusWalk) { //평균보다 더 적으면
+            const calWalk = allPlusWalk - avgWalk7days
+            resultText = util.shuffleRandom(['나이 평균보다' + parseInt(calWalk) + '걸음 적은 편입니다. ', '저런, 나이대 평균보다' + parseInt(calWalk) + '걸음 적은 편인거 같아요. ', '데이터를 찾아보니 평균보다' + parseInt(calWalk) + '걸음 적은 편이네요. ', '평균 나이대 보다는 ' + parseInt(calWalk) + '걸음 적은 편이에요. '])[0]
+          } else {
+            resultText = util.shuffleRandom(['평균보다 많은 편입니다. ', '대단해요. 평균보다 많은 편이에요. ', '역시 대단하세요. 평균보다 많은 편입니다. ', '평균을 뛰어넘으셨습니다. '])[0]
+          }
+
+        } else if (walkgoalResult.walkgoalSwitch == 'on') { //설정한 걸음이 있으면
+          const walkgoals = walkgoalResult.walkgoal
+          if (avgWalk7days > walkgoals) { //설정한 값이 더 크면
+            resultText = util.shuffleRandom(['설정하신 목표보다 ' + (avgWalk7days - walkgoals) + '걸음 더 많이 걸었습니다. ', '아, 설정하신 걸음 목표보다 더 많은 ' +(avgWalk7days - walkgoals) + '걸음을 걸으셨네요. ', ' ' + (avgWalk7days - walkgoals) + '걸음을 목표 보다 더 많이 걸었습니다. '])[0]
+          } else {
+            resultText = util.shuffleRandom(['설정하신 목표보다 ' + (walkgoals - avgWalk7days) + '걸음 부족합니다. ', '목표 걸음에 비해서 ' + (walkgoals - avgWalk7days) + '걸음 부족하네요. ', '' +(walkgoals - avgWalk7days) + '걸음이 목표한 걸음에 비해서 부족합니다. '])[0]
+          }
         }
 
-        const sayText = '1주일 동안 평균 ' + parseInt(avgWalk7days) + '걸음을 걸었으며, 전체 걸은 거리는' + avgDis7days + 'km입니다.' +
-          ' 나이대 평균에 비교를 해보면 ' + nameToken + ' 어제와 오늘을 합친 걸음은 ' + resultText + util.bpmText(bpm, 7) +
-          util.shuffleRandom(lastTextArr)[0]
+        const sayText = util.shuffleRandom([('1주일 동안 평균 ' + parseInt(avgWalk7days) + '걸음을 걸었으며, 총' + avgDis7days + '키로미터를 걸었습니다. ' + util.ShuffleUmSay() + resultText),
+          ('일주일 평균 ' + parseInt(avgWalk7days) + '걸음을 걸었으며, 총' + avgDis7days + '키로미터를 걸으셨어요. ' + util.ShuffleUmSay() + resultText),
+          ('일주일이죠? 평균 ' + parseInt(avgWalk7days) + '걸음을 걸었으며, 총' + avgDis7days + '키로미터를 걸었습니다. ' + util.ShuffleUmSay() + resultText)
+        ])[0] + util.shuffleRandom(lastTextArr)[0]
         let output = {}
         output.weekinfoanswer = sayText
         return res.send(makeJson(output))
@@ -1141,11 +1321,9 @@ exports.nugu_chatbot = (knex, req, res) => {
   //1달 걸음 정보
   async function monthinfo_action(res) {
 
-
-
     if (!context.session.hasOwnProperty('accessToken')) {
       let output = {}
-      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 이 서비스는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
+      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 한달 조회는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
       output.monthinfoanswer = sayText
       return res.send(makeJson(output))
     }
@@ -1179,10 +1357,9 @@ exports.nugu_chatbot = (knex, req, res) => {
 
       const fitness = await getSync(insertData, 'fitness')
       const distance = await getSync(insertData, 'distance')
-      const bpm = await getSync(insertData, 'bpm')
-      console.log(fitness)
-      console.log(distance)
-      console.log('bpm : ', bpm)
+      const walkgoalResult = await walkgoalSQL({
+        email: emailToken
+      })
 
       if (fitness.code != 200 || distance.code != 200) {
         const sayText = '죄송합니다. 구글 계정연동에 문제가 있어 데이터를 가져오지 못했습니다. 누구 앱에서 계정을 연동을 하신 후 사용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
@@ -1203,22 +1380,36 @@ exports.nugu_chatbot = (knex, req, res) => {
           avgWalk30daysDistance += distanceList[i].distance
         }
 
-        avgWalk30days = avgWalk30days / 30 //1주일치를 평균으로
+        avgWalk30days = parseInt(avgWalk30days / 30) //1주일치를 평균으로
         avgWalk30daysDistance = parseInt(avgWalk30daysDistance) / 1000
 
         const allPlusWalk = util.averageWalk((new Date().getFullYear() - Number(yearToken)), sexToken)
 
         let resultText = '';
-        if (avgWalk30days < allPlusWalk) { // 평균보다 더 적으면
-          const calWalk = allPlusWalk - avgWalk30days
-          resultText = '평균보다 적은 편입니다. ' + util.ShuffleUmSay() + '하루 평균 ' + parseInt(calWalk) + '걸음이 부족하며, 평소에 더 많은 걸음 혹은 부족함을 운동으로 채워보시는건 어떨까요? '
-        } else {
-          resultText = '평균보다 많은 편입니다. 잘 유지하시면 더욱 건강하겠죠? '
-        }
 
-        const sayText = '1달 동안 평균 ' + parseInt(avgWalk30days) + '걸음을 걸었으며, 전체 걸은 거리는' + avgWalk30daysDistance + 'km입니다.' +
-          ' 나이대 평균에 비교를 해보면 ' + nameToken + '님은, ' + resultText + util.bpmText(bpm, 30) +
-          util.shuffleRandom(lastTextArr)[0]
+        if (walkgoalResult.walkgoalSwitch == 'off') {
+
+          if (avgWalk30days < allPlusWalk) { //평균보다 더 적으면
+            const calWalk = allPlusWalk - avgWalk30days
+            resultText = util.shuffleRandom(['나이 평균보다' + parseInt(calWalk) + '걸음 적은 편입니다. ', '저런, 나이대 평균보다' + parseInt(calWalk) + '걸음 적은 편인거 같아요. ', '데이터를 찾아보니 평균보다' + parseInt(calWalk) + '걸음 적은 편이네요. ', '평균 나이대 보다는 ' + parseInt(calWalk) + '걸음 적은 편이에요. '])[0]
+          } else {
+            resultText = util.shuffleRandom(['평균보다 많은 편입니다. ', '대단해요. 평균보다 많은 편이에요. ', '역시 대단하세요. 평균보다 많은 편입니다. ', '평균을 뛰어넘으셨습니다. '])[0]
+          }
+
+        } else if (walkgoalResult.walkgoalSwitch == 'on') { //설정한 걸음이 있으면
+
+          const walkgoals = walkgoalResult.walkgoal
+          if (avgWalk30days > walkgoals) { //목표 걸음보다 더 많으면
+            resultText = util.shuffleRandom(['목표걸음은 ' + walkgoals + ' 였죠? 설정하신 목표보다 ' + (avgWalk30days- walkgoals) + '걸음 더 많이 걸었습니다. ', '아, 설정하신 걸음 목표보다 더 많은 ' + (avgWalk30days- walkgoals) + '걸음을 걸으셨네요. ', ' ' + (avgWalk30days- walkgoals) + '걸음을 목표 보다 더 많이 걸었습니다. '])[0]
+          } else {
+            resultText = util.shuffleRandom(['설정하신 목표보다 ' + (walkgoals - avgWalk30days) + '걸음 부족합니다. ', '목표 걸음' + walkgoals + '에 비해서 ' + (walkgoals - avgWalk30days) + '걸음 부족하네요. ', '' + (walkgoals - avgWalk30days) + '걸음이 목표한 걸음에 비해서 부족합니다. '])[0]
+          }
+        }
+        const sayText = util.shuffleRandom([('한달 동안 평균 ' + parseInt(avgWalk30days) + '걸음을 걸었으며, 총' + avgWalk30daysDistance + '키로미터를 걸었습니다. ' + util.ShuffleUmSay() + resultText),
+          ('한달 평균 ' + parseInt(avgWalk30days) + '걸음을 걸었으며, 총' + avgWalk30daysDistance + '키로미터를 걸으셨어요. ' + resultText),
+          ('최근 한달이죠? 평균 ' + parseInt(avgWalk30days) + '걸음을 걸었으며, 총' + avgWalk30daysDistance + '키로미터를 걸었습니다. ' + util.ShuffleUmSay() + resultText)
+        ])[0] + util.shuffleRandom(lastTextArr)[0]
+
         let output = {}
         output.monthinfoanswer = sayText
         return res.send(makeJson(output))
@@ -1237,7 +1428,7 @@ exports.nugu_chatbot = (knex, req, res) => {
 
     if (!context.session.hasOwnProperty('accessToken')) {
       let output = {}
-      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 이 서비스는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
+      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 특정 달 조회는 사용하실 수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
       output.userdateanswer = sayText
       return res.send(makeJson(output))
     }
@@ -1257,7 +1448,7 @@ exports.nugu_chatbot = (knex, req, res) => {
       userDate = parameters.userdate.value
       userDate.replace(/[^0-9]/g, ""); // 숫자만 남기기
     }
-    console.log('userDate: ', userDate)
+
 
     if (userDate > 12) { //13월 같은걸 말하면
       userDate = 12
@@ -1285,8 +1476,9 @@ exports.nugu_chatbot = (knex, req, res) => {
 
       const fitness = await getSync(insertData, 'fitness')
       const distance = await getSync(insertData, 'distance')
-      const bpm = await getSync(insertData, 'bpm')
-
+      const walkgoalResult = await walkgoalSQL({
+        email: emailToken
+      })
 
       if (fitness.code != 200 || distance.code != 200) {
         const sayText = '죄송합니다. 구글 계정연동에 문제가 있어 데이터를 가져오지 못했습니다. 누구 앱에서 계정을 연동을 하신 후 사용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
@@ -1295,11 +1487,8 @@ exports.nugu_chatbot = (knex, req, res) => {
         return res.send(makeJson(output))
 
       } else {
-        console.log('ok')
         const fitnessList = fitness.list
         const distanceList = distance.list
-        console.log('fitnessList')
-        console.log('distanceList')
         let avgWalk30days = 0
         let avgWalk30daysDistance = 0
 
@@ -1309,25 +1498,37 @@ exports.nugu_chatbot = (knex, req, res) => {
           avgWalk30daysDistance += distanceList[i].distance
         }
 
-        avgWalk30days = avgWalk30days / 30 //1주일치를 평균으로
+        avgWalk30days = parseInt(avgWalk30days / 30) //1주일치를 평균으로
         avgWalk30daysDistance = parseInt(avgWalk30daysDistance) / 1000
-        console.log(avgWalk30days)
-        console.log(avgWalk30daysDistance)
+
         const allPlusWalk = util.averageWalk((new Date().getFullYear() - Number(yearToken)), sexToken)
 
         let resultText = '';
-        if (avgWalk30days < allPlusWalk) { // 평균보다 더 적으면
-          const calWalk = allPlusWalk - avgWalk30days
-          resultText = '평균보다 적은 편입니다. 하루 평균 ' + parseInt(calWalk) + '걸음이 부족하며, 평소에 더 많은 걸음 혹은 부족함을 운동으로 채워보시는건 어떨까요? '
-        } else {
-          resultText = '평균보다 많은 편입니다. 잘 유지하시면 더욱 건강하겠죠? '
-        }
 
-        const sayText = userDate + '월 동안 평균 ' + parseInt(avgWalk30days) +
-          '걸음을 걸었으며 전체 걸은 거리는' + avgWalk30daysDistance + 'km입니다.' +
-          ' 나이 평균에 비교를 해보면 ' + nameToken + '님은, ' + resultText + util.bpmText(bpm, 30) + util.shuffleRandom(lastTextArr)[0]
+        if (walkgoalResult.walkgoalSwitch == 'off') {
+
+          if (avgWalk30days < allPlusWalk) { //평균보다 더 적으면
+            const calWalk = allPlusWalk - avgWalk30days
+            resultText = util.shuffleRandom(['나이 평균보다' + parseInt(calWalk) + '걸음 적은 편입니다. ', '저런, 나이대 평균보다' + parseInt(calWalk) + '걸음 적은 편인거 같아요. ', '데이터를 찾아보니 평균보다' + parseInt(calWalk) + '걸음 적은 편이네요. ', '평균 나이대 보다는 ' + parseInt(calWalk) + '걸음 적은 편이에요. '])[0]
+          } else {
+            resultText = util.shuffleRandom(['평균보다 많은 편입니다. ', '대단해요. 평균보다 많은 편이에요. ', '역시 대단하세요. 평균보다 많은 편입니다. ', '평균을 뛰어넘으셨습니다. '])[0]
+          }
+
+        } else if (walkgoalResult.walkgoalSwitch == 'on') { //설정한 걸음이 있으면
+
+          const walkgoals = walkgoalResult.walkgoal
+          if (avgWalk30days > walkgoals) { //설정한 값보다 더 많이 걸으면
+            resultText = util.shuffleRandom(['목표걸음은 ' + walkgoals + ' 였던가요? 목표보다 ' + (avgWalk30days - walkgoals) + '걸음 더 많이 걸으셨어요. 대단하세요. ','목표걸음은 ' + walkgoals + ' 였죠? 설정하신 목표보다 ' + (avgWalk30days - walkgoals) + '걸음 더 많이 걸었습니다. ', '아, 설정하신 걸음 목표보다 더 많은 ' + (avgWalk30days - walkgoals) + '걸음을 걸으셨네요. ', ' 와아, ' + (avgWalk30days - walkgoals) + '걸음을 목표 보다 더 많이 걸었습니다. '])[0]
+          } else { // 설정한 값이 더 커서 적게 걸었으면
+            resultText = util.shuffleRandom(['설정하신 목표보다 ' + (walkgoals - avgWalk30days) + '걸음 부족합니다. ', '목표 걸음' + walkgoals + '에 비해서 ' + (walkgoals - avgWalk30days) + '걸음 부족하네요. ', '' + (walkgoals - avgWalk30days) + '걸음이 목표한 걸음에 비해서 부족합니다. '])[0]
+          }
+        }
+        const sayText = util.shuffleRandom([('한달 동안 평균 ' + parseInt(avgWalk30days) + '걸음을 걸었으며, 총' + avgWalk30daysDistance + '키로미터를 걸었습니다. ' + util.ShuffleUmSay() + resultText),
+          ('한달 평균 ' + parseInt(avgWalk30days) + '걸음을 걸었으며, 총' + avgWalk30daysDistance + '키로미터를 걸으셨어요. ' + resultText),
+          ('최근 한달이죠? 평균 ' + parseInt(avgWalk30days) + '걸음을 걸었으며, 총' + avgWalk30daysDistance + '키로미터를 걸었습니다. ' + util.ShuffleUmSay() + resultText)
+        ])[0] + util.shuffleRandom(lastTextArr)[0]
+
         let output = {}
-        console.log(sayText)
         output.userdateanswer = sayText
         return res.send(makeJson(output))
       }
@@ -1355,7 +1556,14 @@ exports.nugu_chatbot = (knex, req, res) => {
       foodnamecol = parameters.foodnamecol.value
     }
     const foodInfo = util.foodColesterol(foodnamecol) //cal info json
-    let sayText = foodnamecol + '의 콜레스테롤은 ' + foodInfo.colesterol + '밀리그램 이며, 지방은 ' + foodInfo.fat + '그램 들어 있습니다. ' + util.shuffleRandom(lastTextArr)[0]
+    let sayText = util.shuffleRandom([(foodnamecol + '의 콜레스테롤은 ' + foodInfo.colesterol + '밀리그램 이며, 지방은 ' + foodInfo.fat + '그램 들어 있습니다. '),
+      (foodnamecol + '말이죠? ' + foodnamecol + '의 콜레스테롤은 ' + foodInfo.colesterol + '밀리그램 이네요. 아, 지방은 ' + foodInfo.fat + '그램 들어 있답니다. ',
+        (foodnamecol + '말이신가요? 콜레스테롤은 ' + foodInfo.colesterol + '밀리그램 이며, 지방은 ' + foodInfo.fat + '그램 들어 있습니다. '),
+        (foodnamecol + '말이군요! 그럼 알아보겠습니다. ' + foodnamecol + '의 콜레스테롤은' + foodInfo.colesterol + '밀리그램 이며, 지방은 ' + foodInfo.fat + '그램 들어 있네요. '),
+        (foodnamecol + '이죠? 우선 콜레스테롤은 ' + foodInfo.colesterol + '밀리그램 이며, 지방은 ' + foodInfo.fat + '그램 들어 있습니다. '),
+        (foodnamecol + '을 알아보겠습니다. 우선 지방은 ' + foodInfo.fat + '그램 들어 있으며 콜레스테롤은 ' + foodInfo.colesterol + '밀리그램 들어있습니다. '))
+    ])[0] + util.shuffleRandom(lastTextArr)[0]
+
     let output = {}
     output.foodcolesterolanswer = sayText
     return res.send(makeJson(output))
@@ -1374,7 +1582,7 @@ exports.nugu_chatbot = (knex, req, res) => {
 
     if (!context.session.hasOwnProperty('accessToken')) {
       let output = {}
-      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 이 서비스는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
+      let sayText = '죄송합니다. 현재 계정연결이 되어 있지 않아 1달 조회 이메일 보내기 서비스는 사용하실수 없습니다. 누구앱에서 계정연동을 하신후 이용해 주세요. ' + util.shuffleRandom(lastTextArr)[0]
       output.mailsendanswer = sayText
       return res.send(makeJson(output))
     }
@@ -1486,7 +1694,7 @@ exports.nugu_chatbot = (knex, req, res) => {
         });
 
         let output = {}
-        output.mailsendanswer = nameToken + '님의 연동하신 계정으로 한달 데이터를 이메일로 보냈습니다. ' + util.shuffleRandom(lastTextArr)[0]
+        output.mailsendanswer = nameToken + util.shuffleRandom(['님의 연동하신 계정으로 한달 데이터를 이메일로 보냈습니다. ', '님의 이메일로 한달 만보기, 걸은 거리 정보를 보냈습니다. ', '님의 연동하신 계정으로 이메일을 지금 보냈답니다. '])[0] + util.shuffleRandom(lastTextArr)[0]
         return res.send(makeJson(output))
 
       }
@@ -1496,15 +1704,14 @@ exports.nugu_chatbot = (knex, req, res) => {
 
   } //function end
 
-
   //====================================================================
   //====================================================================
   //====================================================================
 
   // 지원되는 메뉴
   function support_action(res) {
-    const arrayCommand = ['오늘의 불쾌지수', '오늘의 음식 부패지수', '야외운동 어때', '일주일 데이터를 알려줘', '한달 데이터를 알려줘', '오늘의 데이터를 알려줘', '된장국 칼로리 알려줘', '운동하기 좋은 날씨니', '이메일을 보내줘', '6월 데이터를 알려줘']
-    let sayText = '현재 지원되는 메뉴는 ' + util.listTextMake(util.shuffleRandom(arrayCommand)) + ' 입니다. ' + util.shuffleRandom(lastTextArr)[0]
+    const arrayCommand = ['오늘의 불쾌지수', '부패지수 알려줘', '고등의의 콜레스테롤을 알려줘', '야외운동하기 어때', '일주일 데이터를 알려줘', '한달 데이터를 알려줘', '오늘의 데이터를 알려줘', '된장국 칼로리 알려줘', '운동하기 좋은 날씨니', '이메일을 보내줘', '6월 데이터를 알려줘', '어제와 오늘의 심박동은 어떻게 되']
+    let sayText = '현재 지원되는 메뉴중 3가지를 알려드리겠습니다.  ' + util.listTextMake(util.shuffleRandom(arrayCommand)) + ' 입니다. ' + util.shuffleRandom(lastTextArr)[0]
     let output = {}
     output.supportanswer = sayText
     return res.send(makeJson(output))
@@ -1514,7 +1721,7 @@ exports.nugu_chatbot = (knex, req, res) => {
   //  도움말
   function help_action(res) {
 
-    let sayText = '안녕하세요. ' + appTitle + '는 구글 피트니스 정보를 이용하여 날씨와 연령등의 정보로 다양한 정보를 알려드리는 앱입니다. 지원되는 메뉴를 알려줘 하면 랜덤하게 명령어도 알려드립니다.' + util.shuffleRandom(lastTextArr)[0]
+    let sayText = '안녕하세요. ' + appTitle + '는 구글 피트니스 정보를 이용하여 날씨와 연령등의 정보로 다양한 정보를 알려드리는 앱입니다. 지원되는 메뉴를 알려줘 라고 말하시면 랜덤하게 명령어도 알려드립니다.' + util.shuffleRandom(lastTextArr)[0]
     let output = {}
     output.helpanswer = sayText
     return res.send(makeJson(output))
@@ -1540,7 +1747,6 @@ exports.nugu_chatbot = (knex, req, res) => {
         email: emailToken
       }
       //토큰 타임 비교해서 googleTokenTime이 크면 갱신하지 않는다.
-      console.log('rows[0].googleTokenTime ', rows[0].googleTokenTime)
       if (rows[0].googleTokenTime == null) {
         callback(null, false)
       } else {
@@ -1549,14 +1755,14 @@ exports.nugu_chatbot = (knex, req, res) => {
           console.log('rows[0].googleTokenTime : 갱신안함')
           knex('Camelia_Users').select('googleAccessToken').where('email', emailToken)
             .then(rows => {
-              console.log('googleTokenSQL ', rows[0])
+
               callback(null, rows[0].googleAccessToken)
             })
           // 갱신시 request 해서 callback 처리된 데이터 가져오기
         } else {
           console.log('rows[0].googleTokenTime : 갱신함')
           refreshToken(insertData, function(token) {
-            console.log('token : ', token)
+
             callback(null, token)
           })
 
@@ -1588,6 +1794,15 @@ exports.nugu_chatbot = (knex, req, res) => {
   const FOODINFO_ACTION = 'action.foodinfo';
   // 음식 콜레스테롤
   const FOODCOLESTEROL_ACTION = 'action.foodcolesterol';
+
+  //어제와 오늘의 심박동
+  const WALKBPM_ACTION = 'action.walkbpm';
+
+  //자외선 지수
+  const UV_ACTION = 'action.uv'
+
+  // 바이러스 지수
+  const VIRUS_ACTION = 'action.virus'
 
   //이메일로 최근 한달 정보
   const EMAIL_ACTION = 'action.email';
@@ -1634,6 +1849,9 @@ exports.nugu_chatbot = (knex, req, res) => {
       monthinfo_action(res);
       break;
 
+    case VIRUS_ACTION: //바이러스 지수
+      virus_action(res);
+      break;
 
     case FOODINFO_ACTION: //음식추천
       foodInfo_action(res);
@@ -1660,6 +1878,15 @@ exports.nugu_chatbot = (knex, req, res) => {
     case USERDATE_ACTION: //사용자날짜
       userDate_action(res)
       break;
+
+    case WALKBPM_ACTION: //사용자 심박동
+      walkbpm_action(res)
+      break;
+
+    case UV_ACTION: // 자외선 지수
+      uv_action(res)
+      break;
+
 
       //퀄리티용
     case HELP_INTENT:

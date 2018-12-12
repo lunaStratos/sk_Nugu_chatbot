@@ -1,0 +1,23 @@
+{
+  "name": "Nugu_Template",
+  "engines": {
+    "node": ">= 8.0"
+  },
+  "description": "Nugu_Template",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "gcloud app deploy",
+    "start": "node app.js",
+    "lint": "samples lint",
+    "pretest": "npm run lint",
+    "system-test": "samples test app",
+    "test": "npm run system-test",
+    "e2e-test": "samples test deploy"
+  },
+  "private": "true",
+  "license": "ISC",
+  "dependencies": {
+    "package": "^1.0.1",
+    "package.json": "^2.0.1",
+  }
+}

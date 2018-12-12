@@ -26,8 +26,8 @@ exports.insertFirstApi = (knex, requestType, insertData) => {
 
     switch (requestType) {
       case 'nowWeather': // 실황
-        url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastGrib?serviceKey=[api키]";
-        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastGrib?serviceKey=[api키]&base_date=20181026&base_time=1500&nx=60&ny=127&numOfRows=8&pageSize=1&pageNo=1&startPage=1&_type=json
+        url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastGrib?serviceKey=aAfuvIitnAf6ckcIREyJXGfFEDWy7dah3nWnhgcGoL0%2BqCpEgu4MWRBmY89qcQvJreZBb%2F7Npm0MGsBjv6Es3Q%3D%3D";
+        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastGrib?serviceKey=aAfuvIitnAf6ckcIREyJXGfFEDWy7dah3nWnhgcGoL0%2BqCpEgu4MWRBmY89qcQvJreZBb%2F7Npm0MGsBjv6Es3Q%3D%3D&base_date=20181026&base_time=1500&nx=60&ny=127&numOfRows=8&pageSize=1&pageNo=1&startPage=1&_type=json
         //T1H	기온 RN1 1시간 강수량 PTY: 강수형태
         //obsrValue
         forms.numOfRows = 8
@@ -38,8 +38,8 @@ exports.insertFirstApi = (knex, requestType, insertData) => {
         break;
 
       case 'forecastShortWeather': //초단기예보 3시간치
-        url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastTimeData?serviceKey=[api키]";
-        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastTimeData?serviceKey=[api키]&base_date=20181026&base_time=1500&nx=60&ny=127&numOfRows=100&pageSize=10&pageNo=1&startPage=1&_type=json
+        url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastTimeData?serviceKey=aAfuvIitnAf6ckcIREyJXGfFEDWy7dah3nWnhgcGoL0%2BqCpEgu4MWRBmY89qcQvJreZBb%2F7Npm0MGsBjv6Es3Q%3D%3D";
+        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastTimeData?serviceKey=aAfuvIitnAf6ckcIREyJXGfFEDWy7dah3nWnhgcGoL0%2BqCpEgu4MWRBmY89qcQvJreZBb%2F7Npm0MGsBjv6Es3Q%3D%3D&base_date=20181026&base_time=1500&nx=60&ny=127&numOfRows=100&pageSize=10&pageNo=1&startPage=1&_type=json
         //"category":"T1H","fcstDate":20181026,"fcstTime":1600,"fcstValue":13.1,
         forms.numOfRows = 100
         forms.pageSize = 1
@@ -48,8 +48,8 @@ exports.insertFirstApi = (knex, requestType, insertData) => {
         break;
 
       case 'forecastWeather': //동네예보 하루치
-        url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData?serviceKey=[api키]";
-        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData?serviceKey=[api키]&base_date=20181026&base_time=1500&nx=60&ny=127&numOfRows=100&pageSize=1&pageNo=1&startPage=1&_type=json
+        url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData?serviceKey=aAfuvIitnAf6ckcIREyJXGfFEDWy7dah3nWnhgcGoL0%2BqCpEgu4MWRBmY89qcQvJreZBb%2F7Npm0MGsBjv6Es3Q%3D%3D";
+        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData?serviceKey=aAfuvIitnAf6ckcIREyJXGfFEDWy7dah3nWnhgcGoL0%2BqCpEgu4MWRBmY89qcQvJreZBb%2F7Npm0MGsBjv6Es3Q%3D%3D&base_date=20181026&base_time=1500&nx=60&ny=127&numOfRows=100&pageSize=1&pageNo=1&startPage=1&_type=json
         //  pop강수확률
         //  pty 강수형태
         //  T3H 3시간 기온
@@ -315,8 +315,8 @@ exports.updateApi = (knex, requestType, insertData) => {
 
     switch (requestType) {
       case 'nowWeather': // 실황
-        url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastGrib?serviceKey=[api키]";
-        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastGrib?serviceKey=[api키]&base_date=20181026&base_time=1500&nx=60&ny=127&numOfRows=8&pageSize=1&pageNo=1&startPage=1&_type=json
+        url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastGrib?serviceKey=aAfuvIitnAf6ckcIREyJXGfFEDWy7dah3nWnhgcGoL0%2BqCpEgu4MWRBmY89qcQvJreZBb%2F7Npm0MGsBjv6Es3Q%3D%3D";
+        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastGrib?serviceKey=aAfuvIitnAf6ckcIREyJXGfFEDWy7dah3nWnhgcGoL0%2BqCpEgu4MWRBmY89qcQvJreZBb%2F7Npm0MGsBjv6Es3Q%3D%3D&base_date=20181026&base_time=1500&nx=60&ny=127&numOfRows=8&pageSize=1&pageNo=1&startPage=1&_type=json
         //T1H	기온 RN1 1시간 강수량 PTY: 강수형태
         //obsrValue
         forms.numOfRows = 8
@@ -327,8 +327,8 @@ exports.updateApi = (knex, requestType, insertData) => {
         break;
 
       case 'forecastShortWeather': //초단기예보 3시간치
-        url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastTimeData?serviceKey=[api키]";
-        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastTimeData?serviceKey=[api키]&base_date=20181026&base_time=1500&nx=60&ny=127&numOfRows=100&pageSize=10&pageNo=1&startPage=1&_type=json
+        url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastTimeData?serviceKey=aAfuvIitnAf6ckcIREyJXGfFEDWy7dah3nWnhgcGoL0%2BqCpEgu4MWRBmY89qcQvJreZBb%2F7Npm0MGsBjv6Es3Q%3D%3D";
+        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastTimeData?serviceKey=aAfuvIitnAf6ckcIREyJXGfFEDWy7dah3nWnhgcGoL0%2BqCpEgu4MWRBmY89qcQvJreZBb%2F7Npm0MGsBjv6Es3Q%3D%3D&base_date=20181026&base_time=1500&nx=60&ny=127&numOfRows=100&pageSize=10&pageNo=1&startPage=1&_type=json
         //"category":"T1H","fcstDate":20181026,"fcstTime":1600,"fcstValue":13.1,
         forms.numOfRows = 100
         forms.pageSize = 1
@@ -337,8 +337,8 @@ exports.updateApi = (knex, requestType, insertData) => {
         break;
 
       case 'forecastWeather': //동네예보 하루치
-        url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData?serviceKey=[api키]";
-        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData?serviceKey=[api키]&base_date=20181026&base_time=1500&nx=60&ny=127&numOfRows=100&pageSize=1&pageNo=1&startPage=1&_type=json
+        url = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData?serviceKey=aAfuvIitnAf6ckcIREyJXGfFEDWy7dah3nWnhgcGoL0%2BqCpEgu4MWRBmY89qcQvJreZBb%2F7Npm0MGsBjv6Es3Q%3D%3D";
+        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData?serviceKey=aAfuvIitnAf6ckcIREyJXGfFEDWy7dah3nWnhgcGoL0%2BqCpEgu4MWRBmY89qcQvJreZBb%2F7Npm0MGsBjv6Es3Q%3D%3D&base_date=20181026&base_time=1500&nx=60&ny=127&numOfRows=100&pageSize=1&pageNo=1&startPage=1&_type=json
         //  pop강수확률
         //  pty 강수형태
         //  T3H 3시간 기온

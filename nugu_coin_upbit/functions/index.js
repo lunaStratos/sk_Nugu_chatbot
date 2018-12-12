@@ -422,8 +422,13 @@ exports.nugu_camelia = (req, res) => {
 
       //response json 필드. 여기서 json을 만들어준다.
       function makeJson(jsons) {
-
-
+        /**
+         * [makeJson 설명]
+         * @json {jsons}
+         * 안에는 누구로 보낼 json들이 있습니다
+         * json안에는 파라메터들이 있으며, 각 파라메터는 sk nugu의 play에서 지정한
+         * 이름과 동일해야 합니다.
+         */
         let jsonReturn = {
           "version": "2.0",
           "resultCode": "OK",
@@ -441,8 +446,7 @@ exports.nugu_camelia = (req, res) => {
                   "token": "",
                   "expectedPreviousToken": ""
                 },
-                "metadata": {} // reserved
-              }
+                "metadata": {}
             }
           }
         }

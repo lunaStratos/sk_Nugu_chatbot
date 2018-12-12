@@ -87,9 +87,7 @@ router.post('/login', function(req, res) {
   console.log('login')
   const email = (req.body.email).toLowerCase();
   const password = req.body.password;
-  console.log('password ', password)
-  console.log('email ', email)
-  console.log('state ', req.session.state)
+
   //true 나오면 return
   let checkEmail = checkCode.checkEmail(email)
   let checkPassword = checkCode.checkPassword(password)
@@ -108,7 +106,6 @@ router.post('/login', function(req, res) {
     email: email,
     confirm: 'Y'
   }).update('memo', req.session.state).then(rows => {
-    console.log(rows)
   })
 
   knex('Camelia_Users').where({
@@ -129,7 +126,7 @@ router.post('/login', function(req, res) {
     })
 });
 
-//https://www.googleapis.com/auth/fitness.location.read : 이동한 거리 읽기
+
 router.get('/google', passport.authenticate('google', {
   scope: ['email', 'https://www.googleapis.com/auth/fitness.blood_pressure.read', 'https://www.googleapis.com/auth/fitness.activity.read', 'https://www.googleapis.com/auth/fitness.body.read', 'https://www.googleapis.com/auth/fitness.location.read'],
   accessType: 'offline',
@@ -140,7 +137,6 @@ router.get('/google/callback', passport.authenticate('google', {
     failureRedirect: '/login'
   }),
   function(req, res) {
-    console.log(req.session.passport.user)
     let token = oauth.signToken(req.session.passport.user);
     knex('Camelia_Users').where(
         'email', req.session.passport.user)
@@ -156,65 +152,27 @@ router.get('/google/callback', passport.authenticate('google', {
         'email', req.session.passport.user).then(rows => {
 
         var url = 'https://developers.nugu.co.kr/app/callback.html'
-        console.log(url)
-        console.log(rows[0].memo)
-        console.log(encodeURIComponent(rows[0].memo))
-
         var headers = {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
         var geturl = url + "?code=" + token +
-          "&state=" +
-          //rows[0].memo
-          encodeURIComponent(rows[0].memo)
-
+          "&state=" + encodeURIComponent(rows[0].memo)
         res.setHeader('content-type', 'application/x-www-form-urlencoded');
         res.redirect(geturl)
-
-        // res.writeHead(302, {
-        //   'Content-type': 'application/x-www-form-urlencoded',
-        //   'Location': geturl
-        // });
-        // res.end()
-
-
-        // request(options, function(err, bodyres, body) {
-        //   if (!err && bodyres.statusCode == 200) {
-        //     // Print out the response body
-        //     const jsons = JSON.parse(body.toString())
-        //     console.log(body)
-        //     res.json(body)
-        //   } else {
-        //     console.log('body', body)
-        //     console.log('err', err);
-        //     res.send(body)
-        //   }
-        //
-        // });
       })
       .catch((err) => {
         console.log(err);
         throw err
       })
 
-
   });
 
 
 // oauth/token => 인증코드 들어오면 accessToken 내보냄
 router.post('/token', function(req, res) {
-  console.log('oauth token')
-  console.log(req.headers)
-  console.log(req.body)
   let authHeader = req.body.code;
   const client_secret = req.body.client_secret;
   const client_id = req.body.client_id;
-
-  console.log('authHeader ', authHeader);
-  console.log('client_secret ', client_secret);
-
-  console.log('client_id ', client_id);
-
   // 인증으로 사용해야 할 값이 없다면 Deny
   if (client_id !== secretObj.client_id) {
     return res.json({
@@ -237,11 +195,6 @@ router.post('/token', function(req, res) {
     });
   }
 
-  // if (authHeader.startsWith('Bearer ')) {
-  //   // Remove Bearer from string
-  //    authHeader = authHeader.slice(7, authHeader.length);
-  // }
-
   try {
     var decoded = jwt.verify(authHeader, secretObj.client_secret);
     console.log('decoded: ', decoded)
@@ -258,10 +211,7 @@ router.post('/token', function(req, res) {
       description: 'JWT Code does not have Authorization.'
     });
   } else { // 정상실행
-
     const email = decoded.email;
-    console.log(decoded) //
-
 
     knex('Camelia_Users')
       .where('email', email.toLowerCase())
@@ -270,7 +220,7 @@ router.post('/token', function(req, res) {
         if (rows.length == 0) { //실패
           return res.json({
             error: 'unauthorized_client',
-            description: 'Your Google Email does not have Camelia Project Site. Please sign in site. '
+            description: 'Your Google Email does not have Camelia Project Site. Please sign in site first.'
           });
 
         } else {

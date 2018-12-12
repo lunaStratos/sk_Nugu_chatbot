@@ -4,7 +4,7 @@ var mailConfig = {
   service: 'gmail',
   auth: {
     user: 'noreply.mailsenderaog@gmail.com',
-    pass: '암호'// 암호넣기
+    pass: 'scitmaster987^'// 암호넣기
   }
 };
 

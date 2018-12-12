@@ -18,29 +18,29 @@ exports.updateApi = (requestType, knex) => {
     console.log(forms.time)
     switch (requestType) {
       case 'foodDecay': // 식중독지수
-        url = "http://newsky2.kma.go.kr/iros/RetrieveLifeIndexService3/getFsnLifeList?serviceKey=[api키]&areaNo=1100000000";
+        url = "http://newsky2.kma.go.kr/iros/RetrieveLifeIndexService3/getFsnLifeList?serviceKey=aAfuvIitnAf6ckcIREyJXGfFEDWy7dah3nWnhgcGoL0%2BqCpEgu4MWRBmY89qcQvJreZBb%2F7Npm0MGsBjv6Es3Q%3D%3D&areaNo=1100000000";
         break;
 
       case 'bul': // 불쾌지수.(제공기간:6월~9월)
-        url = "http://newsky2.kma.go.kr/iros/RetrieveLifeIndexService3/getDsplsLifeList?serviceKey=[api키]&areaNo=1100000000";
-        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastTimeData?serviceKey=[api키]&base_date=20181026&base_time=1500&nx=60&ny=127&numOfRows=100&pageSize=10&pageNo=1&startPage=1&_type=json
+        url = "http://newsky2.kma.go.kr/iros/RetrieveLifeIndexService3/getDsplsLifeList?serviceKey=aAfuvIitnAf6ckcIREyJXGfFEDWy7dah3nWnhgcGoL0%2BqCpEgu4MWRBmY89qcQvJreZBb%2F7Npm0MGsBjv6Es3Q%3D%3D&areaNo=1100000000";
+        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastTimeData?serviceKey=aAfuvIitnAf6ckcIREyJXGfFEDWy7dah3nWnhgcGoL0%2BqCpEgu4MWRBmY89qcQvJreZBb%2F7Npm0MGsBjv6Es3Q%3D%3D&base_date=20181026&base_time=1500&nx=60&ny=127&numOfRows=100&pageSize=10&pageNo=1&startPage=1&_type=json
 
         break;
       case 'chegam': // 체감온도 11~3월
-        url = "http://newsky2.kma.go.kr/iros/RetrieveLifeIndexService3/getSensorytemLifeList?serviceKey=[api키]&areaNo=1100000000";
-        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastTimeData?serviceKey=[api키]&base_date=20181026&base_time=1500&nx=60&ny=127&numOfRows=100&pageSize=10&pageNo=1&startPage=1&_type=json
+        url = "http://newsky2.kma.go.kr/iros/RetrieveLifeIndexService3/getSensorytemLifeList?serviceKey=aAfuvIitnAf6ckcIREyJXGfFEDWy7dah3nWnhgcGoL0%2BqCpEgu4MWRBmY89qcQvJreZBb%2F7Npm0MGsBjv6Es3Q%3D%3D&areaNo=1100000000";
+        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastTimeData?serviceKey=aAfuvIitnAf6ckcIREyJXGfFEDWy7dah3nWnhgcGoL0%2BqCpEgu4MWRBmY89qcQvJreZBb%2F7Npm0MGsBjv6Es3Q%3D%3D&base_date=20181026&base_time=1500&nx=60&ny=127&numOfRows=100&pageSize=10&pageNo=1&startPage=1&_type=json
 
         break;
       case 'uv': // 자외선지수(제공기간:3월~11월)
-        url = "http://newsky2.kma.go.kr/iros/RetrieveLifeIndexService3/getUltrvLifeList?serviceKey=[api키]&areaNo=1100000000";
-        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastTimeData?serviceKey=[api키]&base_date=20181026&base_time=1500&nx=60&ny=127&numOfRows=100&pageSize=10&pageNo=1&startPage=1&_type=json
+        url = "http://newsky2.kma.go.kr/iros/RetrieveLifeIndexService3/getUltrvLifeList?serviceKey=aAfuvIitnAf6ckcIREyJXGfFEDWy7dah3nWnhgcGoL0%2BqCpEgu4MWRBmY89qcQvJreZBb%2F7Npm0MGsBjv6Es3Q%3D%3D&areaNo=1100000000";
+        //http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastTimeData?serviceKey=aAfuvIitnAf6ckcIREyJXGfFEDWy7dah3nWnhgcGoL0%2BqCpEgu4MWRBmY89qcQvJreZBb%2F7Npm0MGsBjv6Es3Q%3D%3D&base_date=20181026&base_time=1500&nx=60&ny=127&numOfRows=100&pageSize=10&pageNo=1&startPage=1&_type=json
 
         break;
 
         //설명
         //https://www.data.go.kr/pubs/ins/GovInsttCodeMng/clipReportPrint.do?reportId=FM_016&insttCode=B550928&publicDataDetailPk=uddi:34396265-76e1-47e9-988f-ed04995d5d28
       case 'virus1': // 질병예방 : 감기와 눈병만 한다
-        url = 'http://apis.data.go.kr/B550928/dissForecastInfoSvc/getDissForecastInfo?serviceKey=[api키]';
+        url = 'http://apis.data.go.kr/B550928/dissForecastInfoSvc/getDissForecastInfo?serviceKey=aAfuvIitnAf6ckcIREyJXGfFEDWy7dah3nWnhgcGoL0%2BqCpEgu4MWRBmY89qcQvJreZBb%2F7Npm0MGsBjv6Es3Q%3D%3D';
         forms = {
           numOfRows: 30, //한페이지 결과수
           pageSize: 30,
@@ -51,7 +51,7 @@ exports.updateApi = (requestType, knex) => {
         }
         break;
       case 'virus2': // 질병예방 : 감기와 눈병만 한다
-        url = 'http://apis.data.go.kr/B550928/dissForecastInfoSvc/getDissForecastInfo?serviceKey=[api키]';
+        url = 'http://apis.data.go.kr/B550928/dissForecastInfoSvc/getDissForecastInfo?serviceKey=aAfuvIitnAf6ckcIREyJXGfFEDWy7dah3nWnhgcGoL0%2BqCpEgu4MWRBmY89qcQvJreZBb%2F7Npm0MGsBjv6Es3Q%3D%3D';
         forms = {
           numOfRows: 30, //한페이지 결과수
           pageSize: 30,
@@ -62,7 +62,7 @@ exports.updateApi = (requestType, knex) => {
         }
         break;
       case 'mise': // 질병예방 : 감기와 눈병만 한다
-        url = 'http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMinuDustFrcstDspth?serviceKey=[api키]';
+        url = 'http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMinuDustFrcstDspth?serviceKey=aAfuvIitnAf6ckcIREyJXGfFEDWy7dah3nWnhgcGoL0%2BqCpEgu4MWRBmY89qcQvJreZBb%2F7Npm0MGsBjv6Es3Q%3D%3D';
         const nowDateYearDayOnlyMise = nowDate.getFullYear() + '-' + ('0' + (nowDate.getMonth() + 1)).slice(-2) + '-' + ('0' + nowDate.getDate()).slice(-2);
         forms = {
           numOfRows: 1, //한페이지 결과수
