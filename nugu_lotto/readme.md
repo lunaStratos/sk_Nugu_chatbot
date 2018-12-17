@@ -1,15 +1,20 @@
 
 
+
+
 # SK NUGU play kit for GCP Cloud Functions용 샘플코드
 
 ## 개요
 
 본 페이지의 샘플코드는 Google GCP의 [Cloud Functions](https://cloud.google.com/functions/)에 올릴 수 있게 만들어진 샘플코드 입니다. 여기서는 로또 당첨 번호를 조회하는 챗봇으로 설명을 합니다. 설명하는 코드를 위해서 만든 챗봇이 **로또번호 조회**인 이유는 다음과 같습니다.
 
-![물론 수학 잘하는 사람은 로또를 하지 않습니다?](./img/lotto.png)
+<p align="center">
+<img src="./img/lotto.png?raw=true"/>
+</p>
+<p align="center">물론 수학 잘하는 사람은 로또를 하지 않습니다.</p>
 
 * 숫자라는 데이터를 이용한다는 점에서 정형화.
-* **API**가 공개되어 있고 특별한 인증키가 필요하지 않음.
+* **API**가 공개돼 있고 특별한 인증키가 필요하지 않음.
 * 실생활과 밀접하게 사용 되고 있고, 누구나 알고 있는 서비스. (미성년자는 안되지만...)
 
 이 서비스에서는 **로또번호의 생성**과 **현재 당첨번호**, **이전 회차의 당첨번호** 그리고 **복권 교환장소**라는 4가지 기능과 **Play Kit상에서 동작하는 2개의 기능**(도움말 기능)을 만들었으며, 각각의 기능은 기초적인 설명을 넣었습니다.
@@ -21,14 +26,17 @@
 이 샘플코드의 특징은 다음과 같습니다.
 
  1. 이해하기 쉽게 만들었습니다.
-
-![남이 짠 코드도 힘든데 새로운 기능도 만들어야 한다면...](./img/read.png)
+<p align="center">
+<img src="./img/readeasy.png?raw=true"/>
+<p align="center">남이 짠 코드도 힘든데 새로운 기능도 만들어야 한다면...</p>
 
 일반적인 샘플 코드의 경우 class를 쓴다던가 하는 고급기술을 쓰거나 아마존 EC2(구글에서는 앱엔진)을 써서 파일을 여러개로 분리하는 방식을 사용하고 있습니다. 이 방식이 맞긴 맞지만, 이해하기 어려운 내용이 있습니다. 특히 **기초를 이해해야 다음 단계로 이해**를 하는데, 처음 챗봇을 제작하는 입장에서는 이런점도 어려운 부분입니다. 이를 해결하고자 **한 페이지**로 간단하게 만들었습니다.
 
  2. 서버 비용 문제 해결
-
-![비용의 차이가 느껴지십니까?](./img/price.png)
+<p align="center">
+<img src="./img/price.png?raw=true" width="300" />
+</p>
+<p align="center">비용의 차이가 느껴지십니까?</p>
 
 샘플 코드들의 경우 **AWS EC2**같은 비싼 서비스에 올리기 힘든 코드가 있습니다. 개인개발자의 경우 그럴 비용을 내고 싶지 않은게 현실입니다. 때문에  [Cloud Functions](https://cloud.google.com/functions/)이나 [Lamda](https://aws.amazon.com/ko/lambda/features/)를 사용하여 올릴 수 있도록 만들게 되었습니다. 저 또한 [Cloud Functions](https://cloud.google.com/functions/)을 자주 사용하는 입장입니다.
 
@@ -41,17 +49,23 @@
 우선 **NUGU play Kit**으로 가서 제작을 해봅시다. **NUGU play kit**은
 다음과 같은 형태중 **NUGU**의 인터페이스를 설계하는 곳입니다.
 
-![NUGU play kit](./img/dashboard.png)
+<p align="center">
+<img src="./img/dashboard.png?raw=true"/>
+</p>
+<p align="center">NUGU play kit</p>
 
 이런 형태로 **DashBoard**가 보일 것입니다. 이제 하나씩 만들어 봅시다.
 
 ### 1. Play kit 만들기 & 서버 설정
-
-![NUGU play kit](./img/gif/playkit.gif)
+<p align="center">
+<img src="./img/gif/playkit.gif?raw=true"/>
+</p>
 
 우선 플레이 킷을 만듭니다. [NUGU Developer](developers.nugu.co.kr/)에서 계정을 만들고 [play kit](https://builder.nugu.co.kr/index.html#/dashboard/playList) 에서 **Custom Plays**을 만듭니다.
 
-![NUGU play kit](./img/backend.png)
+<p align="center">
+<img src="./img/backend.png?raw=true"/>
+</p>
 
 우선 **BackEnd**에 서버 주소를 입력합니다. **GCP**의 **Cloud function**의 소스 주소를 입력합니다. 이로서 서버 연동 주소를 입력을 완료했습니다.
 
@@ -59,119 +73,140 @@
 
 ### 2. Intent 설정
 
-![Intent를 넣는 부분](./img/intent.png)
+<p align="center"></p>
+<img src="./img/intent.png?raw=true"/>
 
 Intent는 사용자의 발화를 입력하는 부분입니다. **최소 10개 이상은 넣는게 안전**하다고 봅니다만, 저 같은 경우는 20개 정도를 넣습니다. 최대한 머리를 짜내어(..) 넣어보도록 합시다.
 
 Intent 이름은 Intent.name 형식으로 입력을 하였습니다. 여기서는
 
-> intent.selectLottoNum
-> intent.makeLottoNum
-> intent.lottoChange
-> intent.nowLotto
-> intent.support
-> intent.help
+* intent.selectLottoNum
+* intent.makeLottoNum
+* intent.lottoChange
+* intent.nowLotto
+* intent.support
+* intent.help
 
 총 6가지 가지를 입력 했으며 이중 4종류의 Intent는 **BackEnd**연동을, 나머지 2개는 Play Kit에서 처리를 하게 됩니다.
 
  1. intent.selectLottoNum
-
-![selectLottoNum Intent](./img/selectLottoNum_Intent.png)
+<p align="center">
+<img src="./img/selectLottoNum_Intent.png?raw=true"/>
+</p>
 
  특정 회차를 말하면 API를 이용하여 당첨번호와 1등 상금액수 등을 조회하는 기능입니다.
 
->272회차 당첨번호를 알려줘
->723회차 로또번호를 말해줘
->811회차 당첨 번호를 조회해 줘
->682회 로또 당첨 번호는 어떻게 되었어
->582회의 로또 당첨번호를 말해줘
->293회차의 당첨번호를 알려줘
->28회차 로또번호는 어떻게 되
->282회의 로또번호는 어떻게 되
->382회차 로또번호를 알려줘
+* 272회차 당첨번호를 알려줘
+* 723회차 로또번호를 말해줘
+* 811회차 당첨 번호를 조회해 줘
+* 682회 로또 당첨 번호는 어떻게 되었어
+* 582회의 로또 당첨번호를 말해줘
+* 293회차의 당첨번호를 알려줘
+* 28회차 로또번호는 어떻게 되
+* 282회의 로또번호는 어떻게 되
+* 382회차 로또번호를 알려줘
 
 다음과 같은 형태로 입력을 하였습니다. 각 숫자에는 **BID_QT**라는 **숫자 Built-In Entity**를 사용하였습니다. NUGU에서 **미리 만들어진 Entity**로 사용자가 말한 숫자를 인식하여 **Parameter**로 이용합니다. 숫자 부분에 드래그를 해서 Entity적용을 합니다.
 
 Entity 입력방법은 다음과 같습니다. **크롬에서 하셔야 합니다. 파이어폭스에서는 안됩니다**
 
-![Entity Intent](./img/selectLottoNum_Intent_01.png)
-먼저 Intent를 입력합니다. 그리고 나서
+<p align="center">
+<img src="./img/selectLottoNum_Intent_01.png?raw=true"/>
+</p>
 
-![Entity Intent](./img/selectLottoNum_Intent_02.png)
-숫자 부분에 드래그를 합니다
+<p align="center">먼저 Intent를 입력합니다. 그리고 나서</p>
 
-![Entity Intent](./img/selectLottoNum_Intent_03.png)
-드래그를 하면 Entity입력 창이 뜹니다. **BID_QT**라는 **미리 만들어진 Entity**를 선택하면 됩니다.
+<p align="center">
+<img src="./img/selectLottoNum_Intent_02.png?raw=true"/>
+</p>
 
-![Entity Intent](./img/selectLottoNum_Intent_04.png)
+<p align="center">숫자 부분에 드래그를 합니다</p>
 
-그러면 Entity로 지정된 하나의 Intent가 완성이 되었습니다.
+<p align="center">
+<img src="./img/selectLottoNum_Intent_03.png?raw=true"/>
+</p>
 
-![Entity Intent](./img/gif/selectLottoNum_Intent_gif.png)
+<p align="center">드래그를 하면 Entity 입력 창이 뜹니다. BID_QT라는 미리 만들어진 Entity를 선택하면 됩니다.</p>
 
-이렇게 설명하면 이해하기 힘들수도 있어서 gif로 만들어 봤습니다.
+<p align="center">
+<img src="./img/selectLottoNum_Intent_04.png?raw=true"/>
+</p>
+
+<p align="center">그러면 Entity로 지정된 하나의 Intent가 완성이 되었습니다.</p>
+
+<p align="center">
+<img src="./img/gif/selectLottoNum_Intent.gif?raw=true"/>
+</p>
+
+<p align="center">이렇게 설명하면 이해하기 힘들수도 있어서 gif로 만들어 봤습니다.</p>
 
 나머지 Intent들도 이렇게 숫자만 드래그를 하여  **BID_QT**로 설정하면 됩니다.
 
  2. intent.makeLottoNum
 
-![Entity Intent](./img/makeLottoNum_Intent_01.png)
+<p align="center">
+<img src="./img/makeLottoNum_Intent_01.png?raw=true"/>
+</p>
 
-6개의 로또번호의 생성을 인식하는 Intent입니다.  Intent는 다음과 같습니다.
+6개의 로또번호의 생성을 인식하는 Intent입니다. Intent는 다음과 같습니다.
 
->당첨될 만한 로또번호를 말해줘
->로또번호를 하나 생성해줘
->로또번호를 하나 만들어줘
->로또번호를 만들어 줄래
->로또번호를 만들어줘
->로또번호 생성해줘
+* 당첨될 만한 로또번호를 말해줘
+* 로또번호를 하나 생성해줘
+* 로또번호를 하나 만들어줘
+* 로또번호를 만들어 줄래
+* 로또번호를 만들어줘
+* 로또번호 생성해줘
 
 makeLottoNum Intent는 Entity가 필요없기 때문에 입력하고 저장만 하면 끝납니다.
 
  3. intent.lottoChange
 
-![Entity Intent](./img/lottoChange_Intent_01.png)
+<p align="center">
+<img src="./img/lottoChange_Intent_01.png?raw=true"/>
+</p>
 
 로또 교환장소를 알려주는 Intent입니다.  Intent는 다음과 같습니다.
 
->로또  2등 당첨금 교환 장소를 알려줘
->로또  1등의 당첨금 교환은 어디서 해
->로또  4등 교환장소를 알려줘
->2등의 교환장소는 어디야
->5등 교환장소를 알고싶어
->4등이 당첨되었는데 어디서 교환해
->3등 로또 당첨번호 교환하는 곳을 알려줘
->2등 교환장소는 어디로 가야해
->1등로또 교환장소를 알고싶어
+* 로또 2등 당첨금 교환 장소를 알려줘
+* 로또 1등의 당첨금 교환은 어디서 해
+* 로또 4등 교환장소를 알려줘
+* 2등의 교환장소는 어디야
+* 5등 교환장소를 알고싶어
+* 4등이 당첨되었는데 어디서 교환해
+* 3등 로또 당첨번호 교환하는 곳을 알려줘
+* 2등 교환장소는 어디로 가야해
+* 1등로또 교환장소를 알고싶어
 
 교환장소 역시 특정 회차 로또조회처럼 **BID_QT**라는 **숫자 Built-In Entity**를 사용하였습니다. NUGU에서 **미리 만들어진 Entity**로 사용자가 말한 숫자를 인식하여 **Parameter**로 이용합니다. 숫자 부분에 드래그를 해서 Entity적용을 합니다.
 
 **Entity 적용 방법**은 **특정 회차 로또기능에 설명**을 했기에 생략합니다.
 
  4. intent.nowLotto
-
-![Entity Intent](./img/nowLotto_Intent_01.png)
+<p align="center">
+<img src="./img/nowLotto_Intent_01.png?raw=true"/>
+</p>
 
 최근의 로또당첨번호와 1등상 액수 등을 인식하는 Intent입니다. Intent는 다음과 같습니다.
 
->저번 로또 당첨번호
->저번의 로또 당첨번호
->저번 로또번호를 알려줘
->최근 당첨번호를 알려줘
->최근 어떤 번호가 당첨이 되었어
->최근 로또번호를 알려줘
->이번주로 로또번호를 조회해줘
->이번 로또번호를 알고싶어
->이번주의 로또번호를 알려줄래
->이번 로또번호는 어떻게 되었어
->이번주의 로또 당첨번호를 알려줘
->이번주 번호는 어때
->이번 당첨번호를 알려줘
->이번주 당첨번호를 알려줘
->이번주 로또번호를 알려줘
+* 저번 로또 당첨번호
+* 저번의 로또 당첨번호
+* 저번 로또번호를 알려줘
+* 최근 당첨번호를 알려줘
+* 최근 어떤 번호가 당첨이 되었어
+* 최근 로또번호를 알려줘
+* 이번주로 로또번호를 조회해줘
+* 이번 로또번호를 알고싶어
+* 이번주의 로또번호를 알려줄래
+* 이번 로또번호는 어떻게 되었어
+* 이번주의 로또 당첨번호를 알려줘
+* 이번주 번호는 어때
+* 이번 당첨번호를 알려줘
+* 이번주 당첨번호를 알려줘
+* 이번주 로또번호를 알려줘
 
-![Entity Intent](./img/nowLotto_Intent.gif)
-
+<p align="center">
+<img src="./img/gif/nowLotto_Intent.gif?raw=true"/>
+</p>
 nowLotto Intent는 Entity가 필요 없기 때문에 입력하고 저장 하면 끝납니다.
 
 ### 3. Action 설정
@@ -179,38 +214,54 @@ nowLotto Intent는 Entity가 필요 없기 때문에 입력하고 저장 하면 
 Action은 각 Intent를 연결하여 실질적으로 서버와 통신을 하는 부분입니다. 여기서는  서버의 연동여부와 Request & Response의 **Parameter**를 설정할 수 있습니다.
 
  1. action.selectLottoNum
+<p align="center">
+<img src="./img/selectLottoNum_action_01.png?raw=true"/>
+</p>
 
-![selectLottoNum Action](./img/selectLottoNum_action_01.png)
+<p align="center">전체스크린입니다. 이해를 위해서 하나만 첨부합니다.</p>
 
-전체스크린입니다. 이해를 위해서 하나만 첨부합니다.
+<p align="center">
+<img src="./img/selectLottoNum_action_02.png?raw=true"/>
+</p>
 
-![Utterance Parameter](./img/selectLottoNum_action_02.png)
-intent.selectLottoNum에 연결할 Action입니다.
+<p align="center">intent.selectLottoNum에 연결할 Action입니다.</p>
 
 * Request **Parameter** 이름 : **selectNum**
 * Response **Parameter** 이름 : **selectLotto**
 
+<p align="center">
+<img src="./img/selectLottoNum_action_03.png?raw=true"/>
+</p>
 
-![Utterance Parameter](./img/selectLottoNum_action_03.png)
 우선 **Utterance Parameter**의 **Parameter Name**에는  **selectNum**로 이름을 씁니다. **Entity mapping**에는 **BID_QT**을 하며, 필수에 체크를 하여 회차번호를 말하지 않았을때 물을 말을 넣습니다.
 
-![BackEnd Parameter](./img/selectLottoNum_action_04.png)
+<p align="center">
+<img src="./img/selectLottoNum_action_04.png?raw=true"/>
+</p>
+
 **BackEnd proxy 사용 여부**에는 활성화를 한 후 **BackEnd Parameter**의 **Parameter Name**에는 **selectLotto**으로 이름을 설정합니다.
 
 다음과 같이 설정을 하였습니다. Request & Response의 **Parameter**가 하나뿐이기 때문에 각각 **Parameter**가 하나뿐 입니다. 지정된 **Parameter**의 이름은 BackEnd에서 동일한 이름으로 사용해야 합니다. 이건 샘플코드에서 보시면 되겠습니다.
 (정 이해가 안된다면 **Parameter**이름인 **selectLotto**와 **selectNum**로 찾아보세요. )
 
-![BackEnd Parameter](./img/selectLottoNum_action_05.png)
+<p align="center">
+<img src="./img/selectLottoNum_action_05.png?raw=true"/>
+</p>
 
 텍스트 입력은 다음과 같이 **Response Parameter**이름인 **selectLotto**를 넣으면 끝입니다.
 
-![BackEnd Parameter](./img/gif/selectLottoNum_action.gif)
+<p align="center">
+<img src="./img/gif/selectLottoNum_action.gif?raw=true"/>
+</p>
 
 정 모르겠다면 이 영상을 보시면 됩니다. 입력하는 방법을 Gif로 찍어봤습니다.
 
  2. action.makeLottoNum
 
-![makeLottoNum Action](./img/makeLottoNum_action_01.png)
+<p align="center">
+<img src="./img/makeLottoNum_action_01.png?raw=true"/>
+</p>
+
 intent.makeLottoNum에 연결할 Action입니다.
 
 * Request **Parameter** 이름: **없음**
@@ -224,38 +275,53 @@ intent.makeLottoNum에 연결할 Action입니다.
    **sixthNum**
 
 Request시에는 없으니 Response 시에는 6개의 **Parameter**을 사용하는 형태입니다.
+<p align="center">
+<img src="./img/makeLottoNum_action_02.png?raw=true"/>
+</p>
 
-![Utterance Parameter](./img/makeLottoNum_action_02.png)
 우선 **Utterance Parameter**에는 아무것도 설정하지 않습니다. **Parameter**를 요청할게 없기 때문입니다.
 
-![BackEnd Parameter](./img/makeLottoNum_action_03.png)
+<p align="center">
+<img src="./img/makeLottoNum_action_03.png?raw=true"/>
+</p>
+
 **BackEnd proxy 사용 여부**에는 활성화를 한 후 **BackEnd Parameter**의 **Parameter Name**에는 위의 6개 **Parameter**를 입력합니다.
 
 다음과 같이 설정을 하였습니다. Response는 **Parameter**가 6개이며 이름은 BackEnd에서 Parameter를 저장할때 동일한 이름으로 사용해야 합니다.
 
  3. action.lottoChange
 
- ![BackEnd Parameter](./img/lottoChange_action_01.png)
-
+<p align="center">
+<img src="./img/lottoChange_action_01.png?raw=true"/>
+</p>
 intent.lottoChange에 연결할 Action입니다. 여기서는 텍스트를 한거번에 처리하여 Parameter에 넘길 예정입니다.
 
 * Request **Parameter** 이름 : **selectPrize**
 * Response **Parameter** 이름 : **lottoChange**
 
-![Utterance Parameter](./img/lottoChange_action_02.png)
+<p align="center"></p>
+<img src="./img/lottoChange_action_02.png?raw=true"/>
+<p align="center"></p>
 
  **Utterance Parameter**의 **Parameter Name**에는  **selectPrize**로 이름을 씁니다. **Entity mapping**에는 숫자가 입력된 **BID_QT**을 하며, 필수에 체크를 하여 등수를 말하지 않았을때 물을 말을 넣습니다.
 
-![BackEnd Parameter](./img/lottoChange_action_03.png)
+<p align="center">
+<img src="./img/lottoChange_action_03.png?raw=true"/>
+</p>
+
 **BackEnd proxy 사용 여부**에는 활성화를 한 후 **BackEnd Parameter**의 **Parameter Name**에는  **lottoChange**라는 **Parameter** 이름을 입력합니다.
 
-![BackEnd Parameter](./img/lottoChange_action_04.png)
+<p align="center">
+<img src="./img/lottoChange_action_04.png?raw=true"/>
+</p>
 
 텍스트 처리는 다음과 같습니다.
 
  4. action.nowLotto
 
-![BackEnd Parameter](./img/gif/nowLotto_action.gif)
+<p align="center">
+<img src="./img/gif/nowLotto_action.gif?raw=true"/>
+</p>
 
 intent.nowLotto에 연결할 Action입니다.
 
@@ -291,29 +357,38 @@ intent.nowLotto에 연결할 Action입니다.
 
 Response **Parameter**를 이런 방식으로 사용할 경우, **Parameter**의 갯수가 많기 때문에 이름을 설정할 때 알아보기 쉽게 해야 합니다. 대소문자가 지원되니 이점을 활용하시면 될거 같습니다.
 
-![Utterance Parameter](./img/nowLotto_action_01.png)
+<p align="center">
+<img src="./img/nowLotto_action_01.png?raw=true"/>
+</p>
 
  **Utterance Parameter**는 입력하지 않습니다.
 
-![BackEnd Parameter](./img/nowLotto_action_02.png)
+<p align="center">
+<img src="./img/nowLotto_action_02.png?raw=true"/>
+</p>
+
 **BackEnd proxy 사용 여부**에는 활성화를 한 후 **BackEnd Parameter**의 **Parameter Name**에는  위의 다양한 **Parameter** 이름을 입력합니다.
 
-![Prompt](./img/nowLotto_action_03.png)
+<p align="center">
+<img src="./img/nowLotto_action_03.png?raw=true"/>
+</p>
 
 마지막으로 작동시 NUGU가 말할 텍스트를 입력합니다. **사용자 경험**상 많은 입력을 하면 좋지만 여기서는 3가지 입력만 하겠습니다.
 
 5. action.support & action.help
-![support & help](./img/gif/support_n_help.gif)
+
+<p align="center">
+<img src="./img/gif/support_n_help.gif?raw=true"/>
+</p>
 
 위 **Action**은 **Play kit**상에서 동작을 하게 됩니다. 때문에 **BackEnd**에 연동될 필요가 없습니다. 만약 연산이나 DB등을 사용하지 않고, 단순히 말하는 **Play kit**을 만들고 싶다면 **Play kit**에서 데이터만 입력하여 만들면 됩니다.
 
-
 이로서 **Play Kit**에서의 처리가 모두 끝났습니다. 이제 **BackEnd**를 설계해야 합니다.
 
-
 ## BackEnd 로직 구조
-![support & help](./img/lotto_blueprint.png)
-
+<p align="center">
+<img src="./img/lotto_blueprint.png?raw=true"/>
+</p>
 ```mermaid
 sequenceDiagram
 사용자(NUGU) ->> BackEnd 서버: NUGU에서 서버로 요청
@@ -324,15 +399,15 @@ BackEnd 서버->>각 fucntion들: function으로 이동
 각 fucntion들->> 사용자(NUGU): 만들어진 JSON을 response에 담아 보내기
 ```
 
- 1. 사용자가 말한 내용을 NUGU Play Kit이 처리를 하여 적절한 Intent를 찾습니다. Intent는 연결된 Action을 찾아 설정된 방식으로 BackEnd 서버에 Request서버에 JSON을 보냅니다.
+ 1. 사용자가 말한 내용을 **NUGU Play Kit**이 처리를 하여 적절한 Intent를 찾습니다. Intent는 연결된 Action을 찾아 설정된 방식으로 **BackEnd** 서버에 **Request서버에 JSON**을 보냅니다.
 
- 2. 서버에는 들어온 JSON을 분해하여 Action이름과 Parameter를 받습니다. Parameter는 나중에 각 function에서 사용을 하게 됩니다.
+ 2. 서버에는 들어온 **JSON을 분해**하여 *Action*이름과 *Parameter*를 받습니다. *Parameter는 나중에 각 function에서 사용*하게 됩니다.
 
- 3.  하단의 Switch 문에서 Action이름으로 설정된 function을 찾아 작동을 합니다.
+ 3.  하단의 Switch 문에서 *Action이름으로 설정된 function*을 찾아 작동을 합니다.
 
- 4. function에서 데이터를 처리합니다. 만약 Parameter를 사용한다면 미리 파싱한 Parameter를 이용하여 값(Value)를 찾아 사용을 하면 됩니다.
+ 4. function에서 데이터를 처리합니다. 만약 **Parameter**를 사용한다면 미리 파싱한 **Parameter**를 이용하여 값(Value)를 찾아 사용을 하면 됩니다.
 
- 5. 처리된 값을 Output이라는 변수에 Parameter에 넣습니다. 이때 처리된 결과만 Parameter에 넣을지, 아니면 텍스트 자체를 Parameter에 넣을지를 선택하면 됩니다. 여기서는 두가지 방식 다 샘플로 보여드립니다.
+ 5. 처리된 값을 Output 이라는 변수에 **Parameter**에 넣습니다. 이때 처리된 **결과 값들만 Parameter****에 넣을지, 아니면 **텍스트 자체를 Parameter**에 넣을지를 선택하면 됩니다. 여기서는 두 가지 방식 다 샘플로 보여드립니다.
 
  > 텍스트 전체를 넘기는 경우 오류시 적절한 텍스트를 취사 선택할 수 있습니다, 다만 사용자 경험시 랜덤화 하기 어려운 점이 있습니다. 물론 이 경우 Array로 텍스트 자체를 여러가지로 만들어서 이중 하나를 보내는 랜덤화를 할 수는 있습니다. 샘플코드에서 예시로 보여드립니다.
 
@@ -343,14 +418,18 @@ BackEnd 서버->>각 fucntion들: function으로 이동
  7. Response에 JSON을 넣어서 NUGU로 보냅니다.
 
 
-
 ## 코드 설명
+<p align="center">
+<img src="./img/programmer.png?raw=true"/>
+</p>
 
-![이제부터 BackEnd를 해야 합니다](./img/uwa.png)
+<p align="center">이제부터 BackEnd를 해야 합니다</p>
+
+ 이제부터 BackEnd를 해야 합니다
 코드의 설명에 있어서 로또번호를 생성하는 부분을 예시로 설명하겠습니다.
 
 ### JSON 분석
-처음으로 오는 부분은 Request의 body를 분석해야 합니다. 여기에 NUGU에서 오는 Request가 오며 이 부분에 주요 JSON이 있습니다. 다음은 Request가 오는 예시입니다.
+처음으로 오는 부분은 **Request의 body를 분석**해야 합니다. 여기에 NUGU에서 오는 Request가 오며 이 부분에 주요 **JSON**이 있습니다. 다음은 Request가 오는 예시입니다.
 
     const requestBody = req.body; //request의 body부분
     const Parameters = requestBody.action.Parameters; // 파라메터 부분
@@ -684,8 +763,10 @@ Response JSON을 만들어 둔 function에 **Parameter** 데이터를 넣어서 
 일반적으로는 **Parameter** 이외에는 건드릴 일은 없습니다. 왜냐하면 챗봇의 경우 결국 데이터의 전달로 구현을 하기 때문입니다. 만약 다른 요소를 건드려야 할 경우 수정을 하시면 됩니다.
 
 ## 자 그럼 실제로 동작하는지 살펴볼까요?
-
-![테스트로 브라우져 내 시물레이션이 가능합니다](./img/simulation01.png)
+<p align="center">
+<img src="./img/simulation01.png?raw=true"/>
+</p>
+<p align="center">테스트로 브라우져 내 시물레이션이 가능합니다</p>
 
 잘 됩니다. :)
 
@@ -696,13 +777,17 @@ Response JSON을 만들어 둔 function에 **Parameter** 데이터를 넣어서 
 NUGU Candle로 테스트 하면 다음과 같이 작동합니다. 개발자의 목소리는 거북할거 같아서 삭제를...
 
 ## 이 샘플코드로 OAuth2도 가능한가요?
-
-![이게 좀 이해가 필요해서 말이죠...](./img/oauth2.png)
+<p align="center">
+<img src="./img/oauth2.png?raw=true"/>
+</p>
+<p align="center">이게 좀 이해가 필요해서 말이죠...</p>
 
  **OAuth2**의 경우 [건강마스터](https://github.com/lunaStratos/sk_Nugu_chatbot/tree/master/nugu_healthMaster) 코드를 참조하시기 바랍니다. 실제로 **OAuth2**를 적용한 방식의 **건강마스터** 라는 챗봇입니다. 워낙에 짧은 시간(24일)안에 개발을 해야 했기 때문에 코드 정리는 되어 있지 않지만 이런 형태로 만들수 있다는 걸 아실 수 있습니다.
 
 ## 이 샘플코드에 대해서 궁금한 점이 있으신가요?
-
-![이메일은 언제나 환영합니다. 어렵지만 않은 내용이면...](./img/me.png)
+<p align="center">
+<img src="./img/profile.png?raw=true"/>
+</p>
+<p align="center">이메일은 언제나 환영합니다. 어렵지만 않은 내용이면...</p>
 
 언제든지 **Dev.LunaStratos@gmail** 으로 이메일을 보내주시면 됩니다.
