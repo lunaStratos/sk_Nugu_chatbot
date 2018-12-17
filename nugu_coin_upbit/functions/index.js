@@ -5,7 +5,7 @@ const Promise = require('promise');
 var async = require('async');
 
 exports.nugu_camelia = (req, res) => {
-  const appTitle = '카메리아 프로젝트' // 앱 타이틀
+  const appTitle = '코인마스터' // 앱 타이틀
 
   const arr = [
     "비트코인",
@@ -411,7 +411,7 @@ exports.nugu_camelia = (req, res) => {
       //==========================================================================
       console.log('post')
       const requestBody = req.body; // 중요!
-
+      console.log('requestBody ', requestBody)
       const actionName = requestBody.action.actionName // Action intent 구분
       const parameters = requestBody.action.parameters // parameters
       const context = requestBody.action.context //context
