@@ -166,7 +166,7 @@ exports.nugu_worldweather = (req, res) => {
     code: '208971',
     nation: '인도네시아'
   },{
-    name: '쿠알라룸프르',
+    name: '쿠알라룸프루',
     code: '233776',
     nation: '말레이시아'
   },{
@@ -317,7 +317,7 @@ exports.nugu_worldweather = (req, res) => {
   //디버그 용, actionName을 표시합니다
   console.log(`request: ${JSON.stringify(actionName)}`);
 
-  const apikey = 'tDSWJGo2Z0SUgyuswqTrALz5QkynxAjL'
+  const apikey = ''
 
   function getJson(cityJson, callback) {
     let url = 'http://dataservice.accuweather.com/currentconditions/v1/' + cityJson.code;
