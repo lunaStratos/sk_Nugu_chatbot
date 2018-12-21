@@ -1,0 +1,31 @@
+{
+  "name": "LunaStratos",
+  "engines": {
+    "node": ">=7.0"
+  },
+  "description": "worldWeather",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "gcloud app deploy",
+    "start": "node index.js",
+    "lint": "samples lint",
+    "pretest": "npm run lint",
+    "system-test": "samples test app",
+    "test": "npm run system-test",
+    "e2e-test": "samples test deploy"
+  },
+  "private": "true",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/storage": "^1.4.0",
+    "actions-on-google": "^2.2.0",
+    "cheerio": "^1.0.0-rc.2",
+    "firebase-admin": "^5.12.1",
+    "firebase-functions": "^1.1.0",
+    "iconv-lite": "^0.4.24",
+    "package": "^1.0.1",
+    "package.json": "^2.0.1",
+    "promise": "^8.0.2",
+    "request": "^2.88.0"
+  }
+}

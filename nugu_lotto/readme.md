@@ -2,6 +2,7 @@
 
 
 
+
 # SK NUGU play kit for GCP Cloud Functions용 샘플코드
 
 ## 개요
@@ -776,6 +777,80 @@ Response JSON을 만들어 둔 function에 **Parameter** 데이터를 넣어서 
 
 NUGU Candle로 테스트 하면 다음과 같이 작동합니다. 개발자의 목소리는 거북할거 같아서 삭제를...
 
+## 등록
+
+1. Play 빌드 생성
+
+<p align="center">
+<img src="./img/nugu_build_01.png?raw=true"/>
+</p>
+
+이제 남은건 등록입니다. 우선 play Build에서 화살표 대로 클릭을 합니다.'
+
+<p align="center">
+<img src="./img/nugu_build_02.png?raw=true"/>
+</p>
+
+빌드 버전에 대한 내용을 등록해야 하는데, 자유롭게 등록해도 됩니다. 보통은 버전을 표시하겠죠?
+
+<p align="center">
+<img src="./img/nugu_build_03.png?raw=true"/>
+</p>
+
+완료가 되면 날짜와 build된 것이 생성됩니다.
+
+
+2. Play 등록하기
+
+<p align="center">
+<img src="./img/nugu_register_01.png?raw=true"/>
+</p>
+
+Play등록으로 갑니다.
+
+<p align="center">
+<img src="./img/nugu_register_02.png?raw=true"/>
+</p>
+
+Play snapshot을 선택해야 하는데 아까 만든 것을 선택합니다.
+
+<p align="center">
+<img src="./img/nugu_register_03.png?raw=true"/>
+</p>
+
+챗봇의 발화 이름과 내용을 채워 넣습니다.
+
+<p align="center">
+<img src="./img/nugu_register_04.png?raw=true"/>
+</p>
+
+**Oauth2**와 같은 기능을 사용한다면 내용을 등록해야 하지만 그렇지 않으므로 보통은 이렇게 등록을 합니다.
+
+<p align="center">
+<img src="./img/nugu_register_05.png?raw=true"/>
+</p>
+
+다른 특별한 건 없는데, 카테고리를 해줘야 합니다.
+
+<p align="center">
+<img src="./img/nugu_register_06.png?raw=true"/>
+</p>
+
+주요기능중 발화샘플은 스피커로 테스트를 하고 나서 등록을 하는 것이 좋습니다.
+
+<p align="center">
+<img src="./img/nugu_register_07.png?raw=true"/>
+</p>
+
+108px와 512px의 아이콘을 등록하고 저장후 심사요청을 합니다.
+
+<p align="center">
+<img src="./img/nugu_register_08.png?raw=true"/>
+</p>
+
+이로서 모든 과정이 끝났습니다. 이제 심사가 완료되기를 기다리면 됩니다.
+
+
 ## 이 샘플코드로 OAuth2도 가능한가요?
 <p align="center">
 <img src="./img/oauth2.png?raw=true"/>
@@ -784,6 +859,8 @@ NUGU Candle로 테스트 하면 다음과 같이 작동합니다. 개발자의 �
 
  **OAuth2**의 경우 [건강마스터](https://github.com/lunaStratos/sk_Nugu_chatbot/tree/master/nugu_healthMaster) 코드를 참조하시기 바랍니다. 실제로 **OAuth2**를 적용한 방식의 **건강마스터** 라는 챗봇입니다. 워낙에 짧은 시간(24일)안에 개발을 해야 했기 때문에 코드 정리는 되어 있지 않지만 이런 형태로 만들수 있다는 걸 아실 수 있습니다.
 
+ > 위 코드를 이해하기 위해서는 Oauth2에 대한 이해가 필수입니다.
+
 ## 이 샘플코드에 대해서 궁금한 점이 있으신가요?
 <p align="center">
 <img src="./img/profile.png?raw=true"/>
@@ -791,3 +868,7 @@ NUGU Candle로 테스트 하면 다음과 같이 작동합니다. 개발자의 �
 <p align="center">이메일은 언제나 환영합니다. 어렵지만 않은 내용이면...</p>
 
 언제든지 **Dev.LunaStratos@gmail** 으로 이메일을 보내주시면 됩니다.
+
+## 저작권
+
+Response json를 제외한 부분은 **MIT License**를 따릅니다.

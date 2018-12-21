@@ -1,0 +1,33 @@
+//Description
+
+로또마스터
+
+당첨된 로또번호 조회와 로또번호 생성을 해 드립니다.
+Stratos Heavy Industry
+com.lunastatos.lotto
+
+http://stratos.dothome.co.kr/index.html#policy
+
+안녕하세요.
+기능은 Description에 나와있는 대로입니다.
+https://github.com/lunaStratos/sk_Nugu_chatbot/tree/master/nugu_lotto
+다음 코드로 개발이 되었습니다.
+감사합니다.
+
+이번주 로또당첨이 궁금하신가요?
+이제 로또마스터가 있습니다. 로또마스터는 아래의 기능을 제공합니다.
+
+* 최신 로또당첨번호와 1등상 액수 조회 : 이번주 로또번호 알려줘
+* 회차별 로또당첨번호와 1등상 액수 조회 : 373회차 로또 당첨번호 조회해줘
+* 상별 교환 장소 조회 : 3등상 교환장소는 어디야
+* 로또번호 생성 : 로또번호 생성해줘
+
+문의사항: Dev.LunaStratos@gmail.com
+
+Dev.LunaStratos@gmail.com
+
+로또마스터 시작해줘
+로또마스터 로또번호 생성해줘
+로또마스터 이번주 로또번호 조회해줘
+
+로또, 로또번호, 나눔로또, 로또번호 생성, 당첨 로또번호
