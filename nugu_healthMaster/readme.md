@@ -33,12 +33,23 @@ OAUth2 authorization code 형식으로 구현을 하였습니다. 구글 피트�
 
 ## Oauth2 구조
 
+<p align="center">
+<img src="./pds/logic_img.png?raw=true"/>
+</p>
+
 본 서비스는  Oauth2 authorization code형태로 구현했으며, 현재 다음과 같은 구조로 토큰을 전송하고 있습니다.
 
 * jwt로 생성하지만 다른 임의의 난수를 생성해도 됩니다.
 * rand는 임의의 코드를 생성하는 모듈입니다. 여기서는 32자리로 생성했습니다.
 
 자세한 사항은 [ietf](https://tools.ietf.org/html/rfc6749#section-4.1.1) 사이트를 참조하시면 됩니다.
+
+## PPT
+
+PT발표용 파일과 기획서 제출 파일입니다.
+
+* [기획서](./pds/camellia_final_.Plan.pptx)
+* [8분 발표용 수정](./pds/camelia_final_speech_8min_censorship.pptx)
 
 ```mermaid
 sequenceDiagram
@@ -50,5 +61,4 @@ Note right of 서버: 구글 Oauth에서<br/>권한을 얻은 후 <br/>Token을 
 서버->>사용자: jwt토큰 보내기
 서버-->>DB: jwt를 DB에서 찾기
 DB->>사용자: rand로 만든 토큰 전송
-
 ```
