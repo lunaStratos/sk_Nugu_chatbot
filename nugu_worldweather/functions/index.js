@@ -317,7 +317,7 @@ exports.nugu_worldweather = (req, res) => {
   //디버그 용, actionName을 표시합니다
   console.log(`request: ${JSON.stringify(actionName)}`);
 
-  const apikey = ''
+  const apikey = 'tDSWJGo2Z0SUgyuswqTrALz5QkynxAjL'
 
   function getJson(cityJson, callback) {
     let url = 'http://dataservice.accuweather.com/currentconditions/v1/' + cityJson.code;

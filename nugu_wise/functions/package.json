@@ -1,0 +1,28 @@
+{
+  "name": "Todaywise",
+  "engines": {
+    "node": ">= 4.0.0"
+  },
+  "description": "Today wise for nugu",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "gcloud app deploy",
+    "start": "node app.js",
+    "lint": "samples lint",
+    "pretest": "npm run lint",
+    "system-test": "samples test app",
+    "test": "npm run system-test",
+    "e2e-test": "samples test deploy"
+  },
+  "private": "true",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/storage": "^1.4.0",
+    "firebase-admin": "^5.8.1",
+    "firebase-functions": "^1.0.1",
+    "package": "^1.0.1",
+    "package.json": "^2.0.1",
+    "randomize": "^0.0.4",
+    "nugujs":"^0.2.0"
+  }
+}

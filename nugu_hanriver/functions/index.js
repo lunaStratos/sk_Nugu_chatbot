@@ -163,19 +163,17 @@ exports.nugu_hanriver = (req, res) => {
 
 
               if (temp < 9) {
-                displayText += " 한강 엄청 춥습니다. 아직 서핑 가즈아를 할 때가 아닙니다. ";
+                displayText += " 서핑과 수상스키를 하기엔 이른 온도일듯 싶네요. ";
               } else if (temp >= 9 && temp < 12) {
-                displayText += " 서핑하기에는 아직 이른 온도입니다. 경치를 보는 것에 만족하세요. ";
+                displayText += " 서핑이나 수상스키를 하기에는 조금은 추울수도 있습니다.";
               } else if (temp >= 12 && temp < 17) {
-                displayText += " 서핑하기 좋은 날씨입니다. ";
+                displayText += " 서핑과 수상스키하기 시원한 날씨입니다. ";
               } else if (temp >= 17) {
-                displayText += " 지금이 적기! 한강가기 좋은날입니다. ";
+                displayText += " 지금이 적기! 수상스키하기 좋은날입니다. ";
               }
               displayText += "그럼 종료할께요!";
             }
-            console.log("displayText: " + displayText);
             let result = makeJson(displayText, Endfiled);
-            console.log(result)
             return res.send(result);
           });
 
