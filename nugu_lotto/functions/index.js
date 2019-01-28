@@ -15,10 +15,19 @@ exports.nugu_lotto = (req, res) => {
   const appTitle = '로또마스터'; // 앱 타이틀을 적어주세요
 
   const requestBody = req.body; //request의 body부분
-  const parameters = requestBody.action.parameters; // 파라메터 부분
+  let parameters = '';
+
+  if(requestBody.action.hasOwnProperty('parameters')){
+    if(Object.keys(requestBody.action.parameters).length === 0){
+      parameters = ''
+    }else{
+      parameters = requestBody.action.parameters// 파라메터 부분
+    }
+  }
+
   const context = requestBody.action.context; //컨텍스트, OAuth연결시 토큰이 들어옵니다
   const actionName = requestBody.action.actionName; // action의 이름
-  console.log('requestBody ', requestBody);
+  console.log('requestBody ', JSON.stringify(requestBody));
 
   //마이크 오픈이라고 생각하는 것을 방지하기 위한 사용자 경험용 마지막 물음
   let lastTextArr = ['다음 명령을 말해주세요', '다음 질문이 있으신가요', '이제 어떤 것을 해드릴까요.', '이제 명령을 해 주세요.', '다른 질문이 있으신가요?', '이제 질문해주세요!', '또 궁금하신게 있으신가요?']
@@ -361,11 +370,12 @@ exports.nugu_lotto = (req, res) => {
 
   function lottoChange_function() {
     const selectNum = parameters.selectPrize.value // Request에 있는 parameters의 1~5등 불러오기
-    const numberValues = selectNum.replace(/[^0-9]/g, ""); // 안전을 위해서 들어온 parameter값을 숫자만 남기기
-    console.log('numberValues: ', numberValues)
-    let speechText = '';
+    const numberValue = selectNum.replace(/[^0-9]/g, ""); // 안전을 위해서 들어온 parameter값을 숫자만 남기기
+    console.log('numberValue: ', numberValue)
 
-    switch (numberValues) {
+    let speechText = '그런 상은 존재하지 않습니다. 로또는 1등부터 5등까지만 있답니다. ';
+
+    switch (Number(numberValues)) {
       case 1:
         speechText = '혹시 1등이신가요? 1등은 신분증을 가지고 농협은행 본점에서만 수령이 가능합니다.';
         break;
@@ -381,8 +391,6 @@ exports.nugu_lotto = (req, res) => {
       case 5:
         speechText = '5등은 5천원! 복권 판매점에서 교환하면 됩니다. ';
         break;
-      default:
-        speechText = '그런 상은 존재하지 않습니다. 로또는 1등부터 5등까지만 있답니다. ';
     }
 
     /**

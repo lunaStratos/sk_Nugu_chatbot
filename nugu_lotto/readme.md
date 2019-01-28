@@ -433,7 +433,13 @@ BackEnd 서버->>각 fucntion들: function으로 이동
 처음으로 오는 부분은 **Request의 body를 분석**해야 합니다. 여기에 NUGU에서 오는 Request가 오며 이 부분에 주요 **JSON**이 있습니다. 다음은 Request가 오는 예시입니다.
 
     const requestBody = req.body; //request의 body부분
-    const Parameters = requestBody.action.Parameters; // 파라메터 부분
+    if(requestBody.action.hasOwnProperty('parameters')){
+      if(Object.keys(requestBody.action.parameters).length === 0){
+        parameters = ''
+      }else{
+        parameters = requestBody.action.parameters// 파라메터 부분
+      }
+    } //파라메터 부분, {} 이 오는 경우를 방지해야 합니다.
     const context = requestBody.action.context; //컨텍스트, OAuth연결시 토큰이 들어옵니다
     const actionName = requestBody.action.actionName; // action의 이름
 
