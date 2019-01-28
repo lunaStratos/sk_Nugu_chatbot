@@ -7,11 +7,9 @@ const nuguApp = require('nugujs'); // nugujs 모듈 사용.
 const randomField = require('randomize');
 
 exports.nugu_todaywise = (req, res) => {
-  const appTitle = '투데이명언' // 앱 타이틀
+  const appTitle = '투데이 명언' // 앱 타이틀
   const nugu = nuguApp(req, res); //request와 response를 넣어줌
-  let output = {}; //parameter를 위한 output
-
-  console.log('accessToken: ', nugu.token());
+  let output = {}; //parameter를 위한
 
   /**
    * 명언 말하는 부분

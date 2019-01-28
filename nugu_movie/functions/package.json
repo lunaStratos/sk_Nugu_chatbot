@@ -1,0 +1,34 @@
+{
+  "name": "moviemaster",
+  "engines": {
+    "node": ">= 6.0"
+  },
+  "description": "moviemaster",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "gcloud app deploy",
+    "start": "node app.js",
+    "lint": "samples lint",
+    "pretest": "npm run lint",
+    "system-test": "samples test app",
+    "test": "npm run system-test",
+    "e2e-test": "samples test deploy"
+  },
+  "private": "true",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/storage": "^1.4.0",
+    "actions-on-google": "^2.2.0",
+    "firebase-admin": "^5.12.1",
+    "firebase-functions": "^1.1.0",
+    "https": "^1.0.0",
+    "iconv": "^2.3.0",
+    "iconv-lite": "^0.4.23",
+    "package": "^1.0.1",
+    "package.json": "^2.0.1",
+    "promise": "^8.0.1",
+    "request": "^2.83.0",
+    "randomize": "^0.0.4",
+    "nugujs": "^0.2.0"
+  }
+}

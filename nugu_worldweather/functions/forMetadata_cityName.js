@@ -1,4 +1,7 @@
-
+/**
+ * 도시이름을 한거번에 나열하기 위한 console.log용.
+ * 출력후 지원가능한 Description에 넣기
+ */
 const weatherCity = [{
     name: '서울',
     code: '226081',
