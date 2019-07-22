@@ -857,6 +857,35 @@ Play snapshot을 선택해야 하는데 아까 만든 것을 선택합니다.
 이로서 모든 과정이 끝났습니다. 이제 심사가 완료되기를 기다리면 됩니다.
 
 
+## MakeJson 이걸 더 쉽게할수 없을까요?
+
+그래서 만들었습니다. [nugujs](https://www.npmjs.com/package/nugujs)!
+
+    const nuguApp = require('nugujs');
+    const nugu = nuguApp(req, res);
+    let output = {}
+    
+    exports.nugu_lotto = (req, res) => {
+    
+    const nugu = nuguApp(req, res); //필수
+   
+    function say_function(){
+    
+    const parameter = nugu.get('parameter') // 엔티티 파라메터 받기
+    let value = "Day before yesterday I saw a rabbit, and yesterday a deer, and today, you";
+    output.valuename = value
+    
+    nugu.say(output); // 누구로 음성 아웃풋
+    
+    }    
+    
+    }
+
+이런 형태로 사용이 가능하게 만들었습니다. 현재는 say, get정도가 동작하고(다른 기능은 테스트를...)
+고로 파라메터를 받고 동작하는 정도입니다. 향후 제가 어떻게 되냐에 따라서 더 발전할 수도 있고 여기서 정체될수도있지만
+암튼 이런 모듈을 사용해서 더 쉽게 만들수도 있습니다.
+
+
 ## 이 샘플코드로 OAuth2도 가능한가요?
 <p align="center">
 <img src="./img/oauth2.png?raw=true"/>
