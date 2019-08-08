@@ -57,6 +57,10 @@
 
 이런 형태로 **DashBoard**가 보일 것입니다. 이제 하나씩 만들어 봅시다.
 
+>이 실습결과로 만들어진 intent아 Entity의 export된 (Action은 백업이 되지 않습니다) 백업 [json File](https://github.com/lunaStratos/sk_Nugu_chatbot/blob/master/nugu_lotto/img/training_data_lottomaster.json)> 을 제공합니다. 
+>import로 부르면 됩니다. 
+
+
 ### 1. Play kit 만들기 & 서버 설정
 <p align="center">
 <img src="./img/gif/playkit.gif?raw=true"/>
@@ -71,6 +75,7 @@
 우선 **BackEnd**에 서버 주소를 입력합니다. **GCP**의 **Cloud function**의 소스 주소를 입력합니다. 이로서 서버 연동 주소를 입력을 완료했습니다.
 
 >내부에 /health 주소는 안만들어도 됩니다. Cloud function이 자동으로 200을 돌려주기 때문입니다.
+
 
 ### 2. Intent 설정
 
