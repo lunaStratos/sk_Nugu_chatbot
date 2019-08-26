@@ -126,9 +126,6 @@ exports.nugu_movie = (req, res) => {
             });
           }
 
-
-
-
         });
         break;
 
@@ -163,7 +160,7 @@ exports.nugu_movie = (req, res) => {
 
   }
 
-  function movieSearch(dayType, dateRaw, nationType, movieType) {
+  function movieSearch(dayType, dateRaw, nationType, movieType, dayconfirm) {
     //현재시간 받기
     let nowDate = new Date();
 
@@ -182,7 +179,7 @@ exports.nugu_movie = (req, res) => {
     console.log('dateRaw: ', dateRaw);
 
     //빈 값이라면 현재 날짜로 처리하고 종료
-    if (dateRaw == null || dateRaw == undefined || dateRaw == '') {
+    if (dateRaw == null || dateRaw == undefined || dateRaw == '' || dateRaw == 'undefined') {
       dateRaw = yyyy + '-' + mm + '-' + dd;
 
     } else { // 날짜가 들어온다면 처리 시작
@@ -219,17 +216,15 @@ exports.nugu_movie = (req, res) => {
 
     //최종 날짜 조립
     const complateDate = yyyy + '' + mm + '' + dd //yyyyMMdd형태로 만든다.
-    const complateDateSay = yyyy + '년 ' + mm + '월 ' + dd + '일 '
+    let complateDateSay = yyyy + '년 ' + mm + '월 ' + dd + '일 '
 
     // 1. 주간 일간 2. 국가타입 과 영화 종류 : null undefined 이면 전체
-    if (dayType === undefined || dayType === null) {
+    if (dayType === undefined || dayType === null) dayType = 'Days';
+    if (nationType === undefined || nationType === null || nationType === '') nationType = undefined;
+    if (movieType === undefined || movieType === null || movieType === '') movieType = undefined;
+    if (dayconfirm == 1){
       dayType = 'Days';
-    }
-    if (nationType === undefined || nationType === null || nationType === '') {
-      nationType = undefined;
-    }
-    if (movieType === undefined || movieType === null || movieType === '') {
-      movieType = undefined;
+      complateDateSay = '그 달의 1주차 ';
     }
 
     //json 형태로 보내기
@@ -282,7 +277,7 @@ exports.nugu_movie = (req, res) => {
             const showRange = result.showRange;
             const movieList = result.list;
 
-            let speechText = complateDateSay + '주차의 영화는 ';
+            let speechText = complateDateSay + '의 영화순위는 ';
             for (let i = 0; i < 5; i++) {
               const percent = movieList[i].salesShare
               const audiAcc = RoundXL(movieList[i].audiAcc, -3)
@@ -362,7 +357,7 @@ exports.nugu_movie = (req, res) => {
 
     //최종 날짜 조립
     const complateDate = yyyy + '' + mm + '' + dd //yyyyMMdd형태로 만든다.
-    const complateDateSay = yyyy + '년 ' + mm + '월 ' + dd + '일 '
+    const complateDateSay = '그 주'
     // 1. 주간 일간 2. 국가타입 과 영화 종류 : null undefined 이면 전체
     if (dayType === undefined || dayType === null) {
       dayType = 'Days';
@@ -403,7 +398,7 @@ exports.nugu_movie = (req, res) => {
             const showRange = result.showRange;
             const movieList = result.list;
 
-            let speechText = complateDateSay + '주차의 영화는 ';
+            let speechText = complateDateSay + '의 영화순위는 ';
             for (let i = 0; i < 5; i++) {
               const percent = movieList[i].salesShare
               const audiAcc = RoundXL(movieList[i].audiAcc, -3)
@@ -476,7 +471,7 @@ exports.nugu_movie = (req, res) => {
 
       //최종 날짜 조립
       const complateDate = yyyy + '' + mm + '' + dd //yyyyMMdd형태로 만든다.
-      const complateDateSay = yyyy + '년 ' + mm + '월 ' + dd + '일 '
+      const complateDateSay = '그 주'
       // 1. 주간 일간 2. 국가타입 과 영화 종류 : null undefined 이면 전체
       if (dayType === undefined || dayType === null) {
         dayType = 'Days';
@@ -516,7 +511,7 @@ exports.nugu_movie = (req, res) => {
               const showRange = result.showRange;
               const movieList = result.list;
 
-              let speechText = complateDateSay + '주차의 영화는 ';
+              let speechText = complateDateSay + '의 영화순위는 ';
               for (let i = 0; i < 10; i++) {
                 if (i == (grade - 1)) {
                   const percent = movieList[i].salesShare
@@ -525,6 +520,7 @@ exports.nugu_movie = (req, res) => {
                 }
               }
               speechText += '입니다. ' + lastConv;
+              console.log(speechText)
               output.movieinfograde = speechText
               nugu.say(output)
 
@@ -541,10 +537,18 @@ exports.nugu_movie = (req, res) => {
     let dTemp = new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 9);
     let month = nugu.get('month');
     console.log('month ', month)
-    if (month == undefined) { // 이번달로
+
+    if (month == undefined || month == 'undefined') { // 이번달로
       month = dTemp.getMonth() + 1
     }
+
     let day = nugu.get('day');
+    let dayconfirm = 0
+    console.log('day ', day)
+    if (day == undefined || day == 'undefined') { // 날짜가 없다면 1일 고정
+      day = '1'
+      dayconfirm = 1
+    }
 
     var mm = ('0' + month).slice(-2);
     var dd = ('0' + day).slice(-2); //January is 0!
@@ -559,7 +563,7 @@ exports.nugu_movie = (req, res) => {
     console.log('month: ', month)
     console.log('day: ', day)
 
-    movieSearch(dayType, dateRaw, nationType, movieType)
+    movieSearch(dayType, dateRaw, nationType, movieType, dayconfirm)
 
   }
 
@@ -567,6 +571,7 @@ exports.nugu_movie = (req, res) => {
     let lastest = nugu.get('lastestlast')
     let dayType = 'Days'
     let dateRaw = ''
+    console.log('lastest => ', lastest)
     /**
      * 이번주: W.0
      * 저번주: W.-1 형태로 출력
@@ -581,6 +586,7 @@ exports.nugu_movie = (req, res) => {
       default:
         dateRaw = new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 7 + 1000 * 60 * 60 * 9);
     }
+
     var dd = ('0' + dateRaw.getDate()).slice(-2);
     var mm = ('0' + (dateRaw.getMonth() + 1)).slice(-2); //January is 0!
     dateRaw = dateRaw.getFullYear() + '-' + mm + '-' + dd // yyyy-MM-dd 형태
@@ -589,7 +595,8 @@ exports.nugu_movie = (req, res) => {
     // dateRaw 들어오는 형식 => 2019-01-20T12:00:00+09:00
     let nationType = nugu.get('nationlast'); // 외국영화 한국영화 여부 (없으면 null ''  )
     let movieType = '' // 상업성여부
-
+    console.log('nationType ', nationType)
+    if(nationType == 'undefined' || nationType == null ) nationType = '' ;
     console.log('dateRaw: ', dateRaw)
     console.log('nationType: ', nationType)
 
@@ -609,17 +616,20 @@ exports.nugu_movie = (req, res) => {
       dateRaw = new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 7 + 1000 * 60 * 60 * 9);
     } else {
       let dTemp = new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 9);
-      var dd = ('0' + month).slice(-2);
-      var mm = ('0' + day).slice(-2); //January is 0!
+      var mm = ('0' + month).slice(-2);
+      var dd = ('0' + day).slice(-2); //January is 0!
       dateRaw = new Date(dTemp.getFullYear() + '-' + mm + '-' + dd)
     }
 
     let lastest = nugu.get('lastestgrade');
+
     let dayType = 'Days'
     /**
      * 이번주: W.0
      * 저번주: W.-1 형태로 출력
      */
+    console.log('month: ', month)
+    console.log('day: ', day)
     console.log('lastest: ', lastest)
     if (lastest == undefined) {
 
@@ -638,10 +648,11 @@ exports.nugu_movie = (req, res) => {
     }
 
     let grade = parseInt(nugu.get('grade')); // 1~ 10등
+    console.log('grade: ', grade)
 
     if (grade < 1 || grade > 10) {
       output.movieinfograde = '영화순위는 1위부터 10위까지만 가능합니다. ' + lastConv
-      nugu.say()
+      nugu.say(output)
       return;
     }
 

@@ -1,0 +1,200 @@
+{
+  "taggedSentenceList": [
+    {
+      "action.worldweather": [
+        "[CITYNAME:CITYNAME]파리[/CITYNAME:CITYNAME] 날씨는 어때",
+        "[CITYNAME:CITYNAME]호치민[/CITYNAME:CITYNAME] 온도",
+        "[CITYNAME:CITYNAME]하노이[/CITYNAME:CITYNAME] 날씨를 말해줘",
+        "[CITYNAME:CITYNAME]광저우[/CITYNAME:CITYNAME] 날씨를 알려줘",
+        "[CITYNAME:CITYNAME]홍콩[/CITYNAME:CITYNAME] 날씨",
+        "[CITYNAME:CITYNAME]파리[/CITYNAME:CITYNAME]는 지금 어떤지 말해줘",
+        "[CITYNAME:CITYNAME]멕시코시티[/CITYNAME:CITYNAME]는 얼마나 더워",
+        "[CITYNAME:CITYNAME]오미야콘[/CITYNAME:CITYNAME]은 얼마나 추워",
+        "[CITYNAME:CITYNAME]암스테르담[/CITYNAME:CITYNAME]의 습도를 알려줘",
+        "[CITYNAME:CITYNAME]테헤란[/CITYNAME:CITYNAME]의 정보를 알려줘",
+        "[CITYNAME:CITYNAME]상하이[/CITYNAME:CITYNAME]의 온도를 말해줘",
+        "[CITYNAME:CITYNAME]베이징[/CITYNAME:CITYNAME]은 어떤지 말해줘",
+        "[CITYNAME:CITYNAME]워싱턴[/CITYNAME:CITYNAME]은 지금 어때",
+        "[CITYNAME:CITYNAME]애틀란타[/CITYNAME:CITYNAME]의 온도를 알려줘",
+        "[CITYNAME:CITYNAME]시드니[/CITYNAME:CITYNAME]의 온도는 어때",
+        "[CITYNAME:CITYNAME]싱가포르[/CITYNAME:CITYNAME]의 온도",
+        "[CITYNAME:CITYNAME]도쿄[/CITYNAME:CITYNAME]의 날씨",
+        "[CITYNAME:CITYNAME]카이로[/CITYNAME:CITYNAME]의 온도를 알려줘",
+        "[CITYNAME:CITYNAME]오사카[/CITYNAME:CITYNAME]는 지금 몇도야",
+        "[CITYNAME:CITYNAME]런던[/CITYNAME:CITYNAME]의 날씨를 말해줘",
+        "[CITYNAME:CITYNAME]도쿄[/CITYNAME:CITYNAME]의 온도는 어느정도야",
+        "[CITYNAME:CITYNAME]뉴욕[/CITYNAME:CITYNAME]의 날씨를 알려줘",
+        "[CITYNAME:CITYNAME]서울[/CITYNAME:CITYNAME]의 날씨는 어때"
+      ],
+      "intent.help": [
+        "할 수 있는 것을 알려줘",
+        "어떤걸 할수 있는지 알려줘",
+        "넌 할수 있는게 뭐야",
+        "어떻게 사용하는거야",
+        "사용방법을 알려줘",
+        "메뉴얼",
+        "어떻게 사용해",
+        "도움말"
+      ]
+    }
+  ],
+  "userDictList": [
+    {
+      "CITYNAME": {
+        "멜버른": [
+          "멀버른"
+        ],
+        "서울": [],
+        "라고스": [
+          "라오스"
+        ],
+        "다카": [
+          "다카르"
+        ],
+        "바르셀로나": [
+          "바르셀린"
+        ],
+        "상파울루": [],
+        "나이로비": [],
+        "보고타": [
+          "보고파"
+        ],
+        "베를린": [],
+        "오사카": [
+          "대판민국"
+        ],
+        "도쿄": [
+          "동경"
+        ],
+        "멕시코시티": [
+          "멕시고",
+          "멕시카나",
+          "멕시코"
+        ],
+        "알렉산드리아": [
+          "알렉산드라"
+        ],
+        "아디스아바바": [
+          "아디스아바"
+        ],
+        "샌 프란시스코": [],
+        "뉴델리": [],
+        "부다페스트": [],
+        "광저우": [],
+        "밀라노": [],
+        "암스테르담": [],
+        "홍콩": [],
+        "톈진": [
+          "텐진",
+          "텐지"
+        ],
+        "쿠알라룸프루": [
+          "쿠알라룸 푸르",
+          "쿠알라룸푸르"
+        ],
+        "프놈펜": [
+          "프놈팬"
+        ],
+        "워싱턴": [
+          "화성돈",
+          "와싱톤"
+        ],
+        "뉴욕": [],
+        "파리": [
+          "파니"
+        ],
+        "시드니": [],
+        "마닐라": [],
+        "시카고": [],
+        "카이로": [
+          "가위로",
+          "가이로"
+        ],
+        "테헤란": [
+          "테헤란로"
+        ],
+        "애틀란타": [],
+        "시애틀": [],
+        "더블린": [],
+        "토론토": [],
+        "싱가포르": [],
+        "로스 엔젤레스": [
+          "로스앤젤레스"
+        ],
+        "뮌헨": [
+          "뭰헨",
+          "맨핸"
+        ],
+        "카라치": [
+          "가라치",
+          "가챠"
+        ],
+        "쾰른": [],
+        "리스본": [],
+        "프라하": [],
+        "방콕": [],
+        "오미야콘": [
+          "세상에서 가장 추운동네"
+        ],
+        "베이징": [],
+        "켄자스 시티": [
+          "캔자스시티"
+        ],
+        "리야드": [
+          "리아드"
+        ],
+        "앙카라": [],
+        "바르샤바": [],
+        "호치민": [
+          "사이공"
+        ],
+        "케이프타운": [],
+        "나폴리": [],
+        "하노이": [
+          "아놔"
+        ],
+        "자카르타": [],
+        "가오슝": [
+          "카오슝"
+        ],
+        "모스크바": [],
+        "룩셈부르크": [],
+        "이스탄불": [
+          "이스탄블"
+        ],
+        "양곤": [
+          "앙곤"
+        ],
+        "리우 데 자네이루": [
+          "리우데자네이로"
+        ],
+        "브뤼셀": [
+          "브리셀",
+          "브리셸"
+        ],
+        "부에노스 아이레스": [
+          "부에노스 야이네스"
+        ],
+        "뭄바이": [
+          "무바이"
+        ],
+        "상하이": [
+          "샹하이"
+        ],
+        "라호르": [],
+        "마드리드": [],
+        "상트페테르부르크": [
+          "상트 페테르부르크",
+          "상트페테부르크"
+        ],
+        "타이페이": [],
+        "로마": [
+          "노마"
+        ],
+        "런던": [
+          "론던"
+        ]
+      }
+    }
+  ]
+}
