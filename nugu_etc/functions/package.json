@@ -24,6 +24,7 @@
     "promise": "^8.0.1",
     "randomize": "^0.0.4",
     "request": "^2.83.0",
-    "xml2js": "^0.4.19"
+    "xml2js": "^0.4.19",
+    "kanjidate" : "^1.1.3"
   }
 }

@@ -5,6 +5,7 @@ const xml2js = require('xml2js');
 const parser = new xml2js.Parser();
 const Promise = require('promise');
 var convert = require('convert-units')
+var kanjidate = require("kanjidate");
 
 
 exports.nugu_etc = (req, res) => {
@@ -30,7 +31,7 @@ exports.nugu_etc = (req, res) => {
     code: '1',
     info: '불면증을 앓고 있다면 좋은 케모마일 차는 정신적 긴장을 완화시켜 주는 효능이 있습니다. 또한  피부개선을 돕습니다. ',
     etc: ''
-  },{
+  }, {
     name: '캐모마일차',
     code: '1',
     info: '불면증을 앓고 있다면 좋은 캐모마일 차는 정신적 긴장을 완화시켜 주는 효능이 있습니다. 또한  피부개선을 돕습니다. ',
@@ -344,7 +345,6 @@ exports.nugu_etc = (req, res) => {
           speechText = '오늘의 월령 정보는, ' + result.moonage + ', 입니다.' + resultMoonStr + lastConv;
         } //if
 
-        console.log(speechText)
         output.todaymoonresult = speechText
         nugu.say(output)
       });
@@ -406,9 +406,7 @@ exports.nugu_etc = (req, res) => {
     const translateOriginal = parseInt(nugu.get('numorigin')) //기존 숫자
     const original = (nugu.get('original')).replace(' ', '') // 기존단위
     const purpose = (nugu.get('purpose')).replace(' ', '') //새로운 단위
-    console.log(translateOriginal)
-    console.log(original)
-    console.log(purpose)
+
 
     let originalGetjson = convDb.find(item => {
       return item.name == original;
@@ -420,11 +418,11 @@ exports.nugu_etc = (req, res) => {
     let speechText = '말씀하신 ' + translateOriginal + ' ' + original + '은, '
 
     if (original == '평' || purpose == '평') { //무조건 제곱미터로 계산
-      if(original == '평'){
-        speechText += (translateOriginal * 3.30579).toFixed(3) +'제곱미터'
+      if (original == '평') {
+        speechText += (translateOriginal * 3.30579).toFixed(3) + '제곱미터'
       }
-      if(purpose == '평'){
-        speechText += (translateOriginal / 3.30579).toFixed(3) +'평'
+      if (purpose == '평') {
+        speechText += (translateOriginal / 3.30579).toFixed(3) + '평'
       }
 
     } else {
@@ -433,9 +431,38 @@ exports.nugu_etc = (req, res) => {
 
     speechText += ' 입니다. ' + lastConv
 
-    console.log(speechText)
     output.translateResult = speechText
     nugu.say(output)
+  }
+
+  //일본연호 변환기
+  function function_japantrans() {
+    const year = nugu.get('year') //기존 숫자
+    const month = ('0' + (nugu.get('month')).slice(-2))
+    const day = ('0' + (nugu.get('day')).slice(-2))
+
+    let stringDate = ''
+    if (nugu.get('year') == undefined && nugu.get('month') == undefined && nugu.get('day') == undefined) {
+      //오늘의 날짜
+      stringDate = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()
+    } else if (nugu.get('year') != undefined && nugu.get('month') != undefined && nugu.get('day') == undefined) {
+      //일이 없음
+      stringDate = year + '-' + month + '-' + '01';
+    } else if (nugu.get('year') != undefined && nugu.get('month') == undefined && nugu.get('day') == undefined) {
+      //년도만 말함.
+      stringDate = year + '-' + '01' + '-' + '01';
+    }
+
+    //변환 모듈
+
+    let speechText = year + '년' + month + '월' + day + '일의 일본연호 날짜는 ';
+
+    speechText += kanjidate.format(stringDate); // -> "平成28年6月12日（日）"
+    speechText += '입니다. ' + lastConv;
+
+    output.japantrans = speechText;
+    nugu.say(output);
+
   }
 
   // Intent가 오는 부분, actionName으로 구분합니다.
@@ -447,23 +474,30 @@ exports.nugu_etc = (req, res) => {
   const ACTION_TODAYMOON = 'action.todaymoon';
 
   const ACTION_TRANSLATE = 'action.translate';
-
+  const ACTION_JAPANTRANS = 'action.japantrans';
 
   switch (nugu.name()) {
+    //오늘의 차
     case ACTION_TEA:
       return teainfo()
       break;
+      //루나마스터
     case ACTION_MOON:
       return mooninfo()
       break;
+      //루나마스터
     case ACTION_TODAYMOON:
       return todaymoon()
       break;
+      //단위변환
     case ACTION_TRANSLATE:
       return function_translate()
       break;
+      //일본연호
+    case ACTION_JAPANTRANS:
+      return function_japantrans()
+      break;
   }
-
 
 
 };
