@@ -9,8 +9,14 @@ var kanjidate = require("kanjidate");
 
 
 exports.nugu_etc = (req, res) => {
+  console.log(req.body);
+  //if(!req.body.hasOwnProperty('actionName')) return res.send('');
+
   const nugu = nuguApp(req, res); //request와 response를 넣어줌
   let output = {}; //parameter를 위한 output
+
+
+
 
   //앱 타이틀 (전역으로 사용)
   const appTitle = '기타'
@@ -437,27 +443,67 @@ exports.nugu_etc = (req, res) => {
 
   //일본연호 변환기
   function function_japantrans() {
-    const year = nugu.get('year') //기존 숫자
-    const month = ('0' + (nugu.get('month')).slice(-2))
-    const day = ('0' + (nugu.get('day')).slice(-2))
+    const year = ((nugu.get('year') == undefined) ? null : nugu.get('year')) //기존 숫자
+    const month = ((nugu.get('month') == undefined) ? null : nugu.get('month'))
+    const day = ((nugu.get('day') == undefined) ? null : nugu.get('day'))
 
-    let stringDate = ''
-    if (nugu.get('year') == undefined && nugu.get('month') == undefined && nugu.get('day') == undefined) {
+    console.log(year)
+    console.log(month)
+    console.log(day)
+
+    let resultYear = '';
+    let resultMonth = '';
+    let resultDay = '';
+
+    let stringDate = '';
+    if (year == null && month == null && day == null) {
       //오늘의 날짜
-      stringDate = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()
-    } else if (nugu.get('year') != undefined && nugu.get('month') != undefined && nugu.get('day') == undefined) {
+      stringDate = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2)
+      resultYear = d.getFullYear() + '년 '
+      resultMonth = (d.getMonth() + 1) + '월 '
+      resultDay = d.getDate() + '일 '
+    } else if (year != null && month != null && day == null) {
       //일이 없음
-      stringDate = year + '-' + month + '-' + '01';
-    } else if (nugu.get('year') != undefined && nugu.get('month') == undefined && nugu.get('day') == undefined) {
+      stringDate = year + '-' + ('0' + month).slice(-2) + '-' + '01';
+      resultYear = year + '년 '
+      resultMonth = month + '월 '
+      resultDay = ''
+    } else if (year != null && month == null && day == null) {
       //년도만 말함.
       stringDate = year + '-' + '01' + '-' + '01';
+      resultYear = year + '년 '
+      resultMonth = ''
+      resultDay = ''
+    } else if (year != null && month != null && day != null) {
+      stringDate = year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2);
+      resultYear = year + '년 '
+      resultMonth = month + '월 '
+      resultDay = day + '일'
     }
 
     //변환 모듈
+    let speechText = resultYear + ' ' + resultMonth + ' ' + resultDay + '의 일본연호 날짜는 ';
 
-    let speechText = year + '년' + month + '월' + day + '일의 일본연호 날짜는 ';
+    var x = kanjidate.format(stringDate); // -> "平成28年6月12日（日）"
+    var yeararr = [{
+      yearname: '平成',
+      resultname: '헤이세이'
+    }, {
+      yearname: '昭和',
+      resultname: '쇼와'
+    }, {
+      yearname: '令和',
+      resultname: '레이와'
+    }, ]
+    var result = x.replace('年', '년 ').replace('月', '월 ').replace('日', '일 ').split('（')[0];
 
-    speechText += kanjidate.format(stringDate); // -> "平成28年6月12日（日）"
+    for (var i = 0; i < yeararr.length; i++) {
+      if (result.includes(yeararr[i].yearname)) {
+        result = result.replace(yeararr[i].yearname, yeararr[i].resultname + ' ');
+      }
+
+    }
+
     speechText += '입니다. ' + lastConv;
 
     output.japantrans = speechText;
