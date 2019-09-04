@@ -494,7 +494,322 @@ exports.nugu_etc = (req, res) => {
     }, {
       yearname: '令和',
       resultname: '레이와'
-    }, ]
+    }, {
+      yearname: '大化',
+      resultname: ''
+    }, {
+      yearname: '白雉',
+      resultname: ''
+    },{
+      yearname: '朱鳥',
+      resultname: ''
+    },{
+      yearname: '大寶',
+      resultname: ''
+    },{
+      yearname: '慶雲',
+      resultname: ''
+    },{
+      yearname: '和銅',
+      resultname: ''
+    },{
+      yearname: '靈龜',
+      resultname: '레이키'
+    },{
+      yearname: '養老',
+      resultname: ''
+    },{
+      yearname: '神龜',
+      resultname: ''
+    },{
+      yearname: '天平',
+      resultname: ''
+    },{
+      yearname: '天平感寶',
+      resultname: ''
+    },{
+      yearname: '天平勝寶',
+      resultname: ''
+    },{
+      yearname: '天平寶字',
+      resultname: ''
+    },{
+      yearname: '天平神護',
+      resultname: ''
+    },{
+      yearname: '神護景雲',
+      resultname: ''
+    },{
+      yearname: '寶龜',
+      resultname: ''
+    },{
+      yearname: '天應',
+      resultname: ''
+    },{
+      yearname: '延曆',
+      resultname: ''
+    },{
+      yearname: '大同',
+      resultname: ''
+    },{
+      yearname: '弘仁',
+      resultname: ''
+    },{
+      yearname: '天長',
+      resultname: ''
+    },{
+      yearname: '承和',
+      resultname: ''
+    },{
+      yearname: '嘉祥',
+      resultname: ''
+    },{
+      yearname: '仁寿',
+      resultname: ''
+    },{
+      yearname: '斉衡',
+      resultname: ''
+    },{
+      yearname: '天安',
+      resultname: ''
+    },{
+      yearname: '貞観',
+      resultname: ''
+    },{
+      yearname: '元慶',
+      resultname: ''
+    },{
+      yearname: '仁和',
+      resultname: ''
+    },{
+      yearname: '寛平',
+      resultname: ''
+    },{
+      yearname: '昌泰',
+      resultname: ''
+    },{
+      yearname: '延喜',
+      resultname: ''
+    },{
+      yearname: '延長',
+      resultname: ''
+    },{
+      yearname: '承平',
+      resultname: ''
+    },{
+      yearname: '天慶',
+      resultname: ''
+    },{
+      yearname: '天暦',
+      resultname: ''
+    },{
+      yearname: '天徳',
+      resultname: ''
+    },{
+      yearname: '応和',
+      resultname: ''
+    },{
+      yearname: '康保',
+      resultname: ''
+    },{
+      yearname: '安和',
+      resultname: ''
+    },{
+      yearname: '天禄',
+      resultname: ''
+    },{
+      yearname: '天延',
+      resultname: ''
+    },{
+      yearname: '貞元',
+      resultname: ''
+    },{
+      yearname: '天元',
+      resultname: ''
+    },{
+      yearname: '永観',
+      resultname: ''
+    },{
+      yearname: '寛和',
+      resultname: ''
+    },{
+      yearname: '永延',
+      resultname: ''
+    },{
+      yearname: '永祚',
+      resultname: ''
+    },{
+      yearname: '正暦',
+      resultname: ''
+    },{
+      yearname: '長徳',
+      resultname: ''
+    },{
+      yearname: '長保',
+      resultname: ''
+    },{
+      yearname: '寛弘',
+      resultname: ''
+    },{
+      yearname: '長和',
+      resultname: ''
+    },{
+      yearname: '寛仁',
+      resultname: ''
+    },{
+      yearname: '治安',
+      resultname: ''
+    },{
+      yearname: '万寿',
+      resultname: ''
+    },{
+      yearname: '長元',
+      resultname: ''
+    },{
+      yearname: '長暦',
+      resultname: ''
+    },{
+      yearname: '長久',
+      resultname: '조큐'
+    },{
+      yearname: '寛徳',
+      resultname: ''
+    },{
+      yearname: '永承',
+      resultname: ''
+    },{
+      yearname: '天喜',
+      resultname: ''
+    },{
+      yearname: '康平',
+      resultname: ''
+    },{
+      yearname: '治暦',
+      resultname: '지라쿠'
+    },{
+      yearname: '延久',
+      resultname: ''
+    },{
+      yearname: '承保',
+      resultname: ''
+    },{
+      yearname: '承暦',
+      resultname: ''
+    },{
+      yearname: '永保',
+      resultname: ''
+    },{
+      yearname: '応徳',
+      resultname: ''
+    },{
+      yearname: '寛治',
+      resultname: ''
+    },{
+      yearname: '嘉保',
+      resultname: ''
+    },{
+      yearname: '永長',
+      resultname: ''
+    },{
+      yearname: '承徳',
+      resultname: ''
+    },{
+      yearname: '康和',
+      resultname: ''
+    },{
+      yearname: '長治',
+      resultname: ''
+    },{
+      yearname: '嘉承',
+      resultname: ''
+    },{
+      yearname: '天仁',
+      resultname: '덴닌'
+    },{
+      yearname: '天永',
+      resultname: '덴에이'
+    },{
+      yearname: '永久',
+      resultname: '에이큐'
+    },{
+      yearname: '元永',
+      resultname: ''
+    },{
+      yearname: '保安',
+      resultname: ''
+    },{
+      yearname: '天治',
+      resultname: ''
+    },{
+      yearname: '大治',
+      resultname: ''
+    },{
+      yearname: '天承',
+      resultname: ''
+    },{
+      yearname: '長承',
+      resultname: ''
+    },{
+      yearname: '保延',
+      resultname: ''
+    },{
+      yearname: '永治',
+      resultname: '康治'
+    },{
+      yearname: '天養',
+      resultname: ''
+    },{
+      yearname: '久安',
+      resultname: ''
+    },{
+      yearname: '仁平',
+      resultname: ''
+    },{
+      yearname: '久寿',
+      resultname: ''
+    },{
+      yearname: '保元',
+      resultname: ''
+    },{
+      yearname: '平治',
+      resultname: ''
+    },{
+      yearname: '永暦',
+      resultname: ''
+    },{
+      yearname: '応保',
+      resultname: ''
+    },{
+      yearname: '長寛',
+      resultname: ''
+    },{
+      yearname: '永万',
+      resultname: '에이만'
+    },{
+      yearname: '',
+      resultname: ''
+    },{
+      yearname: '',
+      resultname: ''
+    },{
+      yearname: '',
+      resultname: ''
+    },{
+      yearname: '',
+      resultname: ''
+    },{
+      yearname: '',
+      resultname: ''
+    },{
+      yearname: '',
+      resultname: ''
+    },{
+      yearname: '',
+      resultname: ''
+    },{
+      yearname: '',
+      resultname: ''
+    },]
     var result = x.replace('年', '년 ').replace('月', '월 ').replace('日', '일 ').split('（')[0];
 
     for (var i = 0; i < yeararr.length; i++) {

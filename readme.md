@@ -1,6 +1,6 @@
 # SK NUGU playkit chatbot Backend & Intent file
 
-이 페이지는 SK 누구 챗봇 모음입니다.
+이 페이지는 SK 누구 챗봇 모음입니다. 
 
 * 코인마스터[nugu_coin_upbit] : 업비트 시세로 각종 가상화페 시세 읽기
 * 투데이한강[nugu_hanriver] : 한강 온도
@@ -19,14 +19,17 @@
 
 ## 챗봇을 만들고 싶다면?
 
-로또마스터의 경우 초보자들이 만들기 쉽게 md파일로 설명을 했습니다.
+로또마스터[nugu_lotto]의 경우 초보자들이 만들기 쉽게 md 파일로 설명을 했습니다.
+설명을 보시면 이해가 되실 겁니다.
 
-## 다작상
+## SK NUGU 3회 개발 공모전 다작상
 
 [![영상소계](http://img.youtube.com/vi/HBuyEtb8f5s/0.jpg)](https://www.youtube.com/watch?v=HBuyEtb8f5s)
 
+![IMG](./pds/sk.png)
+
 부장님개그, 오늘의 차, 인천공항 출국장, 세계의 시간, 무비마스터, 코인마스터, 루나마스터, 단위마스터
-총 8개의 챗봇으로 2019년 3회 SK playkit 공모전에서 다작상을 받았습니다.
+총 8개의 챗봇으로 2019년 SK NUGU 3회 개발 공모전에서 다작상을 받았습니다.
 
 * [기획서](./pds/NUGU_Play_2019_0815RisingBloom_1.pptx)
 * [발표용 기획서](./pds/NUGU_Play_2019_0827RisingBloom_2.pptx)
