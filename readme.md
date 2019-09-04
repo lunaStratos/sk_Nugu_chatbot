@@ -26,7 +26,7 @@
 
 [![영상소계](http://img.youtube.com/vi/HBuyEtb8f5s/0.jpg)](https://www.youtube.com/watch?v=HBuyEtb8f5s)
 
-![IMG](./pds/sk.png)
+![IMG](./pds/sk3.png)
 
 부장님개그, 오늘의 차, 인천공항 출국장, 세계의 시간, 무비마스터, 코인마스터, 루나마스터, 단위마스터
 총 8개의 챗봇으로 2019년 SK NUGU 3회 개발 공모전에서 다작상을 받았습니다.
