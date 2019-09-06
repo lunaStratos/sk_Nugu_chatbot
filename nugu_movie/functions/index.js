@@ -6,6 +6,32 @@ const request = require('request');
 const iconv = require('iconv-lite');
 
 exports.nugu_movie = (req, res) => {
+
+  // health 페이지
+  if(req.method == 'GET'){
+    res.writeHead(200, {
+      "Content-Type": "text/html; charset=utf-8"
+    });
+    var title = '살려줘요';
+    var body = '<p>살려줘요</p>';
+    var code = [
+      '<!DOCTYPE html>',
+      '<html>',
+      '<head>',
+      '<meta charset="utf-8" />',
+      '<title>' + title + '</title>',
+      '</head>',
+      '<body>',
+      body,
+      '</body>',
+      '</html>'
+    ].join('\n');
+
+    res.write(code, "utf8");
+    res.end();
+    return ;
+  }
+
   const nugu = nuguApp(req, res); //request와 response를 넣어줌
   let output = {}; //parameter를 위한 output
 
@@ -281,7 +307,7 @@ exports.nugu_movie = (req, res) => {
             for (let i = 0; i < 5; i++) {
               const percent = movieList[i].salesShare
               const audiAcc = RoundXL(movieList[i].audiAcc, -3)
-              speechText += movieList[i].rank + '위 ' + movieList[i].movieNm + ' ' + audiAcc + '명, ';
+              speechText += movieList[i].rank + ' ' + movieList[i].movieNm + ', ' + audiAcc + '명, ';
             }
             speechText += '입니다. ' + lastConv;
             output.movieinfo = speechText
@@ -402,7 +428,7 @@ exports.nugu_movie = (req, res) => {
             for (let i = 0; i < 5; i++) {
               const percent = movieList[i].salesShare
               const audiAcc = RoundXL(movieList[i].audiAcc, -3)
-              speechText += movieList[i].rank + '위는 ' + movieList[i].movieNm + ' ' + audiAcc + '명, ';
+              speechText += movieList[i].rank + '위는 ' + movieList[i].movieNm + ', ' + audiAcc + '명, ';
             }
             speechText += '입니다. ' + lastConv;
             output.movieinfolast = speechText
@@ -516,7 +542,7 @@ exports.nugu_movie = (req, res) => {
                 if (i == (grade - 1)) {
                   const percent = movieList[i].salesShare
                   const audiAcc = RoundXL(movieList[i].audiAcc, -3)
-                  speechText += movieList[i].rank + '위는 ' + movieList[i].movieNm + ' ' + audiAcc + '명, ';
+                  speechText += movieList[i].rank + '위는 ' + movieList[i].movieNm + ', ' + audiAcc + '명, ';
                 }
               }
               speechText += '입니다. ' + lastConv;

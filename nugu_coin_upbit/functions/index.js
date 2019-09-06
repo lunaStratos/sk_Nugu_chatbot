@@ -552,7 +552,7 @@ exports.nugu_camelia = (req, res) => {
       // 처리 function
       function support_intent(res) {
 
-        let displayText = '현재 지원되는 코인은 ' + ListTextMake(shuffleRandom(arr)) + ' 입니다. 또 물어보시면 다른 코인도 알려드립니다.';
+        let displayText = '현재 지원되는 코인중 몇가지는 ' + ListTextMake(shuffleRandom(arr)) + ' 입니다. 또 물어보시면 다른 코인도 알려드립니다.';
         let output = {}
         output.answersupport = displayText
         return res.send(makeJson(output))
