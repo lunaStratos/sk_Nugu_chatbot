@@ -405,8 +405,8 @@ exports.nugu_lotto = (req, res) => {
   //액션 선언 모음, 여기서 액션을 선언해 줍니다.
   const ACTION_NOWLOTTO = 'action.nowLotto'; //현재회차 로또
   const ACTION_SELECTLOTTONUM = 'action.selectLottoNum'; //특정회차 로또
-  const ACTION_MAKELOTTONUM = 'action.makeLottoNum';
-  const ACTION_LOTTOCHANGE = 'action.lottoChange';
+  const ACTION_MAKELOTTONUM = 'action.makeLottoNum'; // 로또번호 만들기
+  const ACTION_LOTTOCHANGE = 'action.lottoChange'; // 로또 교환장소 
 
   // Intent가 오는 부분, actionName으로 구분합니다.
   // case안에서 작동할 function을 적습니다.

@@ -10,8 +10,7 @@ const iconvlite = require('iconv-lite');
  * [누구 템플레이트 설명]
  * 구글 cloud용으로 만들어진 단독 파일입니다.
  * exports.nugu_template 의 'nugu_template'는 설정된 이름에 맞추어서 바꾸어 주시면 됩니다.
- *
- * req.body는 SK nugu에서 들어오는 json입니다.
+ * * req.body는 SK nugu에서 들어오는 json입니다.
  */
 
 exports.nugu_lotto = (req, res) => {
@@ -19,6 +18,7 @@ exports.nugu_lotto = (req, res) => {
 
   const requestBody = req.body; //request의 body부분
   let parameters = requestBody.action;
+  //일반 접속시 일반 텍스트 리턴
 	if(!requestBody.hasOwnProperty('action')){
       return res.send('Sic enim Deus dilexit mundum, ut Filium suum unigenitum daret: ut omnis qui credit in eum, non pereat, sed habeat vitam æternam.')
        }
@@ -383,8 +383,8 @@ exports.nugu_lotto = (req, res) => {
   //액션 선언 모음, 여기서 액션을 선언해 줍니다.
   const ACTION_NOWLOTTO = 'action.nowLotto'; //현재회차 로또
   const ACTION_SELECTLOTTONUM = 'action.selectLottoNum'; //특정회차 로또
-  const ACTION_MAKELOTTONUM = 'action.makeLottoNum';
-  const ACTION_LOTTOCHANGE = 'action.lottoChange';
+  const ACTION_MAKELOTTONUM = 'action.makeLottoNum'; // 로또번호 만들기
+  const ACTION_LOTTOCHANGE = 'action.lottoChange'; // 로또 교환장소 
 
   // Intent가 오는 부분, actionName으로 구분합니다.
   // case안에서 작동할 function을 적습니다.
