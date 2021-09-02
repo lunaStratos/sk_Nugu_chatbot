@@ -25,6 +25,7 @@
 ## SK NUGU 3회 개발 공모전 다작상
 
 [![영상소계](http://img.youtube.com/vi/HBuyEtb8f5s/0.jpg)](https://www.youtube.com/watch?v=HBuyEtb8f5s)
+영상링크 : https://www.youtube.com/watch?v=HBuyEtb8f5s
 
 ![IMG](./pds/sk3.png)
 
