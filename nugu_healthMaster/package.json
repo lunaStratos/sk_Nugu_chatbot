@@ -18,7 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "async": "^2.6.1",
+    "async": "^2.6.4",
     "body-parser": "^1.18.3",
     "composable-middleware": "^0.3.0",
     "cookie-parser": "^1.4.3",
